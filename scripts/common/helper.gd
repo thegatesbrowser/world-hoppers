@@ -18,7 +18,7 @@ var light_container
 var sound_container
 var enviroment:WorldEnvironment
 
-
+	
 func load_helper() -> void:
 	hotbar = get_node("/root/Main").find_child("Hotbar") as HotBar
 	terrian = get_node("/root/Main").find_child("VoxelTerrain") as VoxelTerrain
@@ -38,3 +38,6 @@ func load_helper() -> void:
 	enviroment = get_node("/root/Main").find_child("WorldEnvironment")
 	inventory_array = get_node("/root/Main").find_child("Inventory_Array")
 	
+
+func test():
+	print("autoloads")

@@ -4,9 +4,6 @@ extends Control
 @export var terrain:VoxelTerrain
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Console.add_command("hide_loading_screen", self, 'hide_loading_screen')\
-		.set_description("Enables the player to clip through the world (or disables clipping).")\
-		.register()
 	pass # Replace with function body.
 
 var isLoading:=true

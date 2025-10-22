@@ -86,33 +86,6 @@ func on_spawned(node: Node) -> void:
 		return
 	var player := node as Player
 	
-	Console.add_command("respawn", player, 'death')\
-		.set_description("makes the player position the spawn position).")\
-		.register()
-	
-	Console.add_command("ping", player, 'show_ping')\
-		.set_description("shows the ping).")\
-		.register()
-		
-	Console.add_command("pos", player, 'show_pos')\
-		.set_description("shows the position of the player).")\
-		.register()
-	
-	Console.add_command("player_flying", player, 'toggle_flying')\
-		.set_description("Enables the player to fly (or disables flight).")\
-		.register()
-	Console.add_command("player_clipping", player, 'toggle_clipping')\
-		.set_description("Enables the player to clip through the world (or disables clipping).")\
-		.register()
-		
-	Console.add_command("speed", player, '_speed_mode')\
-		.set_description("Enables the player to go speedy).")\
-		.register()
-	
-	Console.add_command("spawn_creature", player, '_spawn_creature')\
-		.set_description("test command to spawn a creature at player pos")\
-		.register()
-
 
 	#print(node.get_multiplayer_authority())
 

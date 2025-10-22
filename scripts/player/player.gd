@@ -23,6 +23,7 @@ const WALK_SPEED = 5.0
 const SPRINT_SPEED = 8.0
 const JUMP_VELOCITY = 7.0
 const CROUCH_SPEED = 3.0
+var custom_speed:bool = false
 const gravity = 22.5
 var speed: float
 
@@ -36,6 +37,7 @@ var set_fall_height:bool = false
 var start_fall_height:float 
 var end_fall_height:float
 var fall_time:float = 0.0
+
 
 @export var can_autojump: bool = true
 
@@ -75,7 +77,6 @@ var check_terrian_timer:Timer
 @onready var ping_label: Label = $Ping
 @onready var pos_label: Label = $Pos
 @onready var collision: CollisionShape3D = $CollisionShape3D
-@onready var hand_ani: AnimationPlayer = $RotationRoot/Head/HandAni
 @onready var floor_ray: RayCast3D = $floor
 @onready var camera_shake: CameraShake3DNode = $RotationRoot/Head/CameraShake3DNode
 @onready var terrain_interation:TerrainInteraction = $Hands/TerrainInteraction
@@ -86,7 +87,7 @@ var check_terrian_timer:Timer
 @onready var can_auto_jump_check: RayCast3D = $RotationRoot/AutoJump2
 @onready var _synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 @onready var _move_direction := Vector3.ZERO
-@onready var hand = $RotationRoot/Head/Camera3D/Hand
+@onready var item_holder = $RotationRoot/Head/Camera3D/Sway/item_holder
 @onready var third_person_model: Node3D = $"RotationRoot/Model" # TP
 
 
@@ -124,15 +125,13 @@ func _ready() -> void:
 
 func _exit_tree():
 	save_data()
-	Console.remove_command("player_flying")
-	Console.remove_command("player_clipping")
 	
 func _update_tp_fp_visibility() -> void:
 	if is_multiplayer_authority():
-		hand.show()
+		item_holder.show()
 		third_person_model.hide()
 	else:
-		hand.hide()
+		item_holder.hide()
 		third_person_model.show()
 
 
@@ -145,7 +144,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotation_root.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-	
 
 func update_shaders():
 	var blocks_shader:ShaderMaterial = load("res://assets/materials/block_shader.tres")
@@ -177,14 +175,14 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority() and Connection.is_peer_connected:
 		interpolate_client(delta); return
 
-	if !Globals.paused and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+	if !Globals.paused and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
 		mine_and_place(delta)
-	if !is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+	if !is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
 		normal_movement(delta)
-	if is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+	if is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
 		flying_movement(delta)
 		
-	if Globals.paused and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+	if Globals.paused and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE or DevConsole.visible:
 		velocity.x = lerp(velocity.x,0.0,.1)
 		velocity.z = lerp(velocity.x,0.0,.1)
 
@@ -220,10 +218,11 @@ func _physics_process(delta: float) -> void:
 					hit(damage)
 
 			set_fall_height = false
-
+	
+	
 	move_and_slide()
 	set_sync_properties()
-
+	
 func set_sync_properties() -> void:
 	_position = position
 	_velocity = velocity
@@ -315,10 +314,10 @@ func add_item_to_hand(scene:PackedScene) -> void:
 	remove_item_in_hand()
 			
 	var holdable_mesh = scene.instantiate()
-	hand.add_child(holdable_mesh) 
+	item_holder.add_child(holdable_mesh) 
 
 func remove_item_in_hand() -> void:
-	for i in hand.get_children():
+	for i in item_holder.get_children():
 		i.queue_free()
 	
 @rpc("any_peer","call_local")
@@ -425,18 +424,19 @@ func hunger_points_gained(amount: int) -> void:
 
 func normal_movement(delta:float):
 	# Handle Sprint.
-	if Input.is_action_pressed("Sprint"):
-		speed = SPRINT_SPEED
-	else:
-		speed = WALK_SPEED
-		
-		# Crouch
-		if Input.is_action_pressed("Crouch"):
-			crouching = true
-			speed = CROUCH_SPEED
+	if not custom_speed:
+		if Input.is_action_pressed("Sprint"):
+			speed = SPRINT_SPEED
 		else:
 			speed = WALK_SPEED
-			crouching = false
+			
+			# Crouch
+			if Input.is_action_pressed("Crouch"):
+				crouching = true
+				speed = CROUCH_SPEED
+			else:
+				speed = WALK_SPEED
+				crouching = false
 			
 	var input_dir = Input.get_vector("Left", "Right", "Forward", "Backward")
 	_move_direction = (rotation_root.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -444,22 +444,11 @@ func normal_movement(delta:float):
 		if _move_direction:
 			if ANI.current_animation != "waling":
 				ANI.play("waling")
-			if hand_ani.current_animation != "pick up":
-				if hand_ani.current_animation != "attack":
-					if hand_ani.current_animation != "eat":
-						if hand_ani.current_animation != "walk":
-							hand_ani.play("walk")
 			velocity.x = _move_direction.x * speed
 			velocity.z = _move_direction.z * speed
 		else:
 			if ANI.current_animation != "idle":
 				ANI.play("idle")
-				
-			if hand_ani.current_animation != "pick up":
-				if hand_ani.current_animation != "attack":
-					if hand_ani.current_animation != "eat":
-						if hand_ani.current_animation != "idle":
-							hand_ani.play("idle")
 					
 			velocity.x = lerp(velocity.x, _move_direction.x * speed, delta * 7.0)
 			velocity.z = lerp(velocity.z, _move_direction.z * speed, delta * 7.0)
@@ -476,6 +465,7 @@ func normal_movement(delta:float):
 	if can_autojump and moving_forward and is_on_floor():
 		if auto_jump.is_colliding() and !can_auto_jump_check.is_colliding():
 			velocity.y = JUMP_VELOCITY
+			
 			
 func flying_movement(delta:float):
 	var dir = Vector3.ZERO
@@ -494,15 +484,6 @@ func mine_and_place(delta:float):
 	var hotbar = Helper.hotbar
 	var hotbar_item:ItemBase = hotbar.get_current().item
 
-	if Input.is_action_pressed("Mine"):
-		if hand_ani.current_animation != "attack":
-			if hand_ani.current_animation != "eat":
-				hand_ani.play("attack")
-	else:
-		if hand_ani.current_animation != "idle" and hand_ani.current_animation != "walk":
-			if hand_ani.current_animation != "RESET":
-				if hand_ani.current_animation != "eat":
-					hand_ani.play("RESET")
 			
 	if Input.is_action_just_pressed("Build"):
 		
@@ -522,27 +503,15 @@ func mine_and_place(delta:float):
 		if ray.is_colliding():
 			var coll = ray.get_collider()
 			
-			if coll is Dropped_Item:
-				coll.collect()
-				Helper.sound_manager.play_sound("pick_up",ray.get_collision_point())
-			
-			if coll is CreatureBase:
-				if hotbar_item != null:
-					if "damage" in hotbar_item:
-						coll.hit.rpc_id(1, global_position,hotbar_item.damage)
+			if coll.is_in_group("Hitbox"):
+				var parent = coll.get_parent()
+				if parent is HealthComponent:
+					if hotbar_item is ItemTool:
+						print("attack ",parent.owner.name)
+						parent.rpc_id(parent.get_multiplayer_authority(),"hit",hotbar_item.damage)
 					else:
-						coll.hit.rpc_id(1, global_position)
-				else:
-					coll.hit.rpc_id(1, global_position)
-					
-			if coll is Player:
-				if hotbar_item != null:
-					if "damage" in hotbar_item:
-						coll.hit.rpc_id( coll.get_multiplayer_authority(),hotbar_item.damage)
-					else:
-						coll.hit.rpc_id( coll.get_multiplayer_authority())
-				else:
-					coll.hit.rpc_id( coll.get_multiplayer_authority())
+						print("attack ",parent.owner.name)
+						parent.rpc_id(parent.get_multiplayer_authority(),"hit",1)
 	
 	if Input.is_action_just_released("Mine"):
 		if hotbar_item is ItemTool:

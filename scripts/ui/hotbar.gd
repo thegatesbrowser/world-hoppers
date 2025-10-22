@@ -142,6 +142,7 @@ func get_all() -> Dictionary:
 	return items
 
 func _on_dropall_pressed() -> void:
+	print("drop")
 	pass
 
 func save() -> Dictionary:

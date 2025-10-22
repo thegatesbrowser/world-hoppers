@@ -1,6 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://buts6uhmr7s2d"]
+[gd_scene load_steps=19 format=3 uid="uid://buts6uhmr7s2d"]
 
 [ext_resource type="Script" path="res://scripts/creatures/creature_base.gd" id="1_qm1no"]
+[ext_resource type="PackedScene" uid="uid://lapvsp2lnu5y" path="res://assets/models/creatures/fox.tscn" id="2_c208a"]
+[ext_resource type="PackedScene" uid="uid://n0lwp263pqys" path="res://scenes/common/health_component.tscn" id="3_cvcyx"]
 [ext_resource type="AudioStream" uid="uid://dpjq0v4ih2wn6" path="res://assets/sounds/other/Fox_idle1.ogg" id="3_yg616"]
 [ext_resource type="AudioStream" uid="uid://0hib4sdr5vnx" path="res://assets/sounds/other/Fox_idle6.ogg" id="4_4tu1u"]
 [ext_resource type="PackedScene" uid="uid://dq2adlui7agaw" path="res://scenes/other/nav_viewer.tscn" id="5_4wykx"]
@@ -14,6 +16,9 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_wmg8c"]
 radius = 0.25
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i6c44"]
+size = Vector3(0.433838, 0.505371, 0.970459)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_14nko"]
 
@@ -63,6 +68,13 @@ target_position = Vector3(1.45519e-11, 1.45519e-11, -1)
 collision_mask = 2
 
 [node name="RotationRoot" type="Node3D" parent="."]
+
+[node name="fox" parent="RotationRoot" instance=ExtResource("2_c208a")]
+
+[node name="HealthComponent" parent="RotationRoot" instance=ExtResource("3_cvcyx")]
+hitbox_collision = SubResource("BoxShape3D_i6c44")
+hitbox_collision_offset = Vector3(0.00524902, 0.247314, 0.0579834)
+max_health = 5
 
 [node name="guide" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)

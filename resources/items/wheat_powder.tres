@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemFood" load_steps=3 format=3 uid="uid://7mxkqc78efvq"]
+[gd_resource type="Resource" script_class="ItemFood" load_steps=4 format=3 uid="uid://7mxkqc78efvq"]
 
 [ext_resource type="Script" path="res://scripts/items/item_food.gd" id="1_v6bfr"]
 [ext_resource type="Texture2D" uid="uid://c3pdydgbmeasd" path="res://assets/textures/blocks/wheatpng.png" id="2_qjksb"]
+[ext_resource type="Animation" uid="uid://bnrjjdwfq2qmo" path="res://assets/animations/eat.res" id="3_gjwid"]
 
 [resource]
 script = ExtResource("1_v6bfr")
@@ -11,6 +12,7 @@ time_rot_step = 1.45519e-11
 max_rot_steps = 0
 rot_step_textures = Array[Texture]([ExtResource("2_qjksb")])
 rot_step_holdable_models = Array[PackedScene]([])
+use_ani = ExtResource("3_gjwid")
 unique_name = &"wheat_powder"
 texture = ExtResource("2_qjksb")
 max_stack = 64

@@ -334,6 +334,7 @@ bg_color = Color(0.0846899, 0.0846899, 0.0846899, 1)
 script = ExtResource("1")
 
 [node name="VoxelTerrain" type="VoxelTerrain" parent="." groups=["VoxelTerrain"]]
+run_stream_in_editor = false
 mesh_block_size = 32
 use_gpu_generation = true
 stream = ExtResource("5_pb5b6")

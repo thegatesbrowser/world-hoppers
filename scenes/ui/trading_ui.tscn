@@ -3,14 +3,14 @@
 [ext_resource type="Theme" uid="uid://c1tenirmy1xiy" path="res://assets/menu/main_menu_theme.tres" id="1_6j2q0"]
 [ext_resource type="PackedScene" uid="uid://dp3vw6ecck05s" path="res://scenes/ui/slot.tscn" id="2_62if8"]
 [ext_resource type="Script" path="res://scripts/ui/trading_ui.gd" id="2_sgsw1"]
-[ext_resource type="Resource" uid="uid://bh4f3xyyxfdql" path="res://resources/items_library.tres" id="3_8q0od"]
+[ext_resource type="Resource" uid="uid://cyrxj8chkhpni" path="res://resources/Items.tres" id="3_lay3x"]
 
 [node name="Trading_UI" type="PanelContainer" node_paths=PackedStringArray("sell_slot", "buy_slot")]
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("1_6j2q0")
 script = ExtResource("2_sgsw1")
-items_lib = ExtResource("3_8q0od")
+items_lib = ExtResource("3_lay3x")
 sell_slot = NodePath("MarginContainer/VBoxContainer/offer/Sell/Sell")
 buy_slot = NodePath("MarginContainer/VBoxContainer/offer/Buy/Buy")
 

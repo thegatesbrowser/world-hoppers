@@ -20,8 +20,12 @@ func _ready() -> void:
 	spawn_tick.timeout.connect(tick)
 
 
-func spawn_creature(pos: Vector3, creature:Creature, spawn_pos = null) -> void:
+@rpc("any_peer","call_local")
+func spawn_creature(pos: Vector3, creature_path:String, spawn_pos = null) -> void:
 	#print(creature, pos)
+	
+	var creature:Creature = load(creature_path)
+	
 	if not multiplayer.is_server(): return
 	
 	if get_tree().get_nodes_in_group("NPCS").size() >= 6:
@@ -37,9 +41,16 @@ func destroy_creature(Name: String) -> void:
 	get_node(spawn_path).get_node(Name).queue_free()
 
 
-func custom_spawn(data: Array) -> Node:
-	
+func debug_spawn_creature(pos:Vector3,creature_name):
+	var creature:String
+	if creature_name == "fox":
+		creature = "res://resources/creatures/fox.tres"
+		
+	print("debug_spawn ",pos,creature_name)
+	if creature:
+		spawn_creature.rpc_id(1,pos,creature)
 
+func custom_spawn(data: Array) -> Node:
 		
 	var id: int = data[0]
 	var spawn_position: Vector3 = data[1]
@@ -79,14 +90,14 @@ func create_viewer(_id: int, creature: CreatureBase) -> void:
 		creature.add_child(viewer)
 
 func create_creature_spawner(spawner_pos:Vector3i,creature:String):
-	#return
+	return
 	creature_spawners[spawner_pos] = {"creature":creature}
 	#print("created_spawner")
 	#print("spawners ",creature_spawners)
 	pass
 	
 func tick():
-	#return
+	return
 	if !multiplayer.is_server(): return
 	if creature_spawners.size() == 0: return
 		
@@ -100,7 +111,7 @@ func tick():
 			if closest_player.global_position.distance_to(pos) > 120: return
 			
 			if pos:
-				spawn_creature(pos,load(creature_spawners[pos].creature))
+				spawn_creature(pos,creature_spawners[pos].creature)
 
 func get_closest_player(check_pos:Vector3i):
 	var last_distance: float = 0.0

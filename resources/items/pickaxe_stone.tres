@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemTool" load_steps=4 format=3 uid="uid://dah3r6qldt8la"]
+[gd_resource type="Resource" script_class="ItemTool" load_steps=5 format=3 uid="uid://dah3r6qldt8la"]
 
 [ext_resource type="PackedScene" uid="uid://dvinjq4u58ol5" path="res://assets/models/tools/Stone/pickaxe_stone.tscn" id="1_s8hha"]
 [ext_resource type="Script" path="res://scripts/items/item_tool.gd" id="2_11r0r"]
+[ext_resource type="Animation" uid="uid://yqesq08f15d6" path="res://assets/animations/pickaxe_use.anim" id="4_3a7vt"]
 [ext_resource type="Texture2D" uid="uid://ce84xbafqocjn" path="res://assets/textures/items/stone_pick.png" id="5_3fdo5"]
 
 [resource]
@@ -14,6 +15,8 @@ degrade_rate = 1
 projectable = false
 amount_needed = 0
 throws_self = false
+use_ani = ExtResource("4_3a7vt")
+toggle_ani = false
 unique_name = &""
 texture = ExtResource("5_3fdo5")
 max_stack = 1

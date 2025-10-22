@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/items/craftables/craftable_info.gd" id="1_g7vvm"]
 [ext_resource type="PackedScene" uid="uid://btbywkj3dg3nr" path="res://scenes/items/craftables/step.tscn" id="2_ckuo2"]
-[ext_resource type="Resource" uid="uid://bh4f3xyyxfdql" path="res://resources/items_library.tres" id="3_2pvre"]
+[ext_resource type="Resource" uid="uid://cyrxj8chkhpni" path="res://resources/Items.tres" id="3_r7pcw"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_dwl63"]
 color = Color(1, 1, 1, 1)
@@ -14,7 +14,7 @@ offset_bottom = 138.0
 script = ExtResource("1_g7vvm")
 step_text_s = ExtResource("2_ckuo2")
 name_label = NodePath("MarginContainer/VBoxContainer/name")
-item_library = ExtResource("3_2pvre")
+item_library = ExtResource("3_r7pcw")
 craft_button = NodePath("MarginContainer/VBoxContainer/Craft")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

@@ -5,8 +5,8 @@ extends Control
 @export var loading_bar: ProgressBar
 
 func _ready() -> void:
-	itemLIB.init_items()
-	ItemDownloader.completed_download.connect(construct_voxelLib)
+	#itemLIB.init_items()
+	#ItemDownloader.completed_download.connect(construct_voxelLib)
 	Backend.playerdata_updated.connect(start_scene)
 
 func _process(delta):

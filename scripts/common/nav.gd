@@ -40,9 +40,6 @@ const _moore_dirs = [
 ]
 
 func _ready() -> void:
-	Console.add_command("nav", self, 'toggle_nav_debug')\
-		.set_description("test command to spawn a creature at player pos")\
-		.register()
 
 	var update_nav_timer := Timer.new()
 	update_nav_timer.wait_time = tick

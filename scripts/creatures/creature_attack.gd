@@ -32,5 +32,5 @@ func Physics_Update(delta:float):
 			coll.rpc_id(coll.get_multiplayer_authority(),"hit",creature.creature_resource.damage)
 			Transitioned.emit(self,"Idle",{})
 			
-	print("distance ",distance)
+	#print("distance ",distance)
 	Transitioned.emit(self,"Idle",{})

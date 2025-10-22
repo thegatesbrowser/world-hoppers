@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=14 format=3 uid="uid://c1tenirmy1xiy"]
 
-[ext_resource type="FontFile" uid="uid://bcyn2himieq3h" path="res://assets/menu/mc_menu.ttf" id="1_kw43i"]
+[ext_resource type="FontFile" uid="uid://bcyn2himieq3h" path="res://assets/menu/mc_menu.ttf" id="1_ofd8h"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
 bg_color = Color(0.187176, 0.187176, 0.187176, 1)
@@ -60,7 +60,7 @@ bg_color = Color(0.0253638, 0.0253638, 0.0253638, 1)
 bg_color = Color(0.6, 0.6, 0.6, 0.278431)
 
 [resource]
-default_font = ExtResource("1_kw43i")
+default_font = ExtResource("1_ofd8h")
 Button/constants/hseparation = 10
 Button/styles/hover = SubResource("3")
 Button/styles/normal = SubResource("3")

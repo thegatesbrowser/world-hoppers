@@ -10,7 +10,7 @@ func set_captured(captured: bool) -> void:
 
 func ui_captured(captured: bool, caller = null) -> void:
 	if captured:
-		if Helper.inventory_holder.visible or Helper.text_chat.visible or Helper.pause_menu.visible:
+		if Helper.inventory_holder.visible or Helper.text_chat.visible or Helper.pause_menu.visible or DevConsole.visible:
 			#print(inventory.visible,text_chat.visible,pause_menu.visible)
 			return
 			

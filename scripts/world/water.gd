@@ -27,7 +27,7 @@ var _time_before_next_process := 0.0
 
 
 func _ready():
-	_terrain_tool = TerrainHelper.get_terrain_tool().get_voxel_tool()
+	_terrain_tool = get_tree().get_first_node_in_group("VoxelTerrain").get_voxel_tool()
 	_terrain_tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
 	#var water = _blocks.get_block_by_name("water").base_info
 	#_water_id = water.id

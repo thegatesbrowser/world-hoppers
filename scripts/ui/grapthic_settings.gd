@@ -28,7 +28,7 @@ func _on_taa_toggled(toggled_on: bool) -> void:
 
 
 func _on_transparency_toggled(toggled_on: bool) -> void:
-	var terrian:VoxelTerrain = TerrainHelper.get_terrain_tool()
+	var terrian:VoxelTerrain = Helper.terrian
 	var voxel_lib:VoxelBlockyTypeLibrary = terrian.mesher.library
 	
 	for voxel in voxel_lib.types:

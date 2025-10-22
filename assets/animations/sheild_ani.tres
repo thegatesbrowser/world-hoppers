@@ -1,0 +1,40 @@
+[gd_resource type="Animation" format=3 uid="uid://d2xgiqj6sh8c1"]
+
+[resource]
+resource_name = "sheild_up"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.287175, 1),
+"update": 0,
+"values": [Vector3(0.340412, -0.537, -0.225), Vector3(0.0440294, -0.388809, -0.225)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.366667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [0],
+"method": &"protection"
+}, {
+"args": [false, 0.0],
+"method": &"player_speed"
+}, {
+"args": [true, 3.0],
+"method": &"player_speed"
+}, {
+"args": [100],
+"method": &"protection"
+}]
+}

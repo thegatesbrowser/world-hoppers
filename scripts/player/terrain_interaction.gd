@@ -62,7 +62,7 @@ func _ready() -> void:
 	plants = [voxel_blocky_type_library.get_model_index_default("tall_grass"),voxel_blocky_type_library.get_model_index_default("fern"),voxel_blocky_type_library.get_model_index_default("flower"),voxel_blocky_type_library.get_model_index_default("reeds"),voxel_blocky_type_library.get_model_index_default("tall_flower"),voxel_blocky_type_library.get_model_index_default("wheat"),voxel_blocky_type_library.get_model_index_default("wheat_seed")]
 
 	if is_multiplayer_authority() or Connection.is_server():
-		terrain = TerrainHelper.get_terrain_tool()
+		terrain = Helper.terrian
 		voxel_tool = terrain.get_voxel_tool()
 	else:
 		block.visible = false

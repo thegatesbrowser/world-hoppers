@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Blueprint" load_steps=5 format=3 uid="uid://lpx3ft7pel1w"]
+
+[ext_resource type="Texture2D" uid="uid://h8nndohifc41" path="res://assets/textures/items/Oak Log.png" id="1_bgvvu"]
+[ext_resource type="Resource" uid="uid://bjdfjo65f6vun" path="res://resources/items/sheild.tres" id="2_3ojou"]
+[ext_resource type="Script" path="res://scripts/items/craftables/blueprint.gd" id="3_ebnfp"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_t43ws"]
+
+[resource]
+script = ExtResource("3_ebnfp")
+Name = "sheild"
+output_amount = 1
+items_needed = {
+1: {
+"amount": 1,
+"name": "log_oak",
+"texture": ExtResource("1_bgvvu")
+}
+}
+unique_name = &"sheild"
+texture = SubResource("PlaceholderTexture2D_t43ws")
+max_stack = 1
+rotatable = false
+drop_items = Array[StringName]([])
+forgable = false
+forge_time = 2.0
+output_item = ExtResource("2_3ojou")
+value = 10

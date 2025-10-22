@@ -1,15 +1,19 @@
-[gd_scene load_steps=68 format=4 uid="uid://bbet1xkqsp2wo"]
+[gd_scene load_steps=67 format=4 uid="uid://bbet1xkqsp2wo"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/player/terrain_interaction.gd" id="2_5q13p"]
+[ext_resource type="PackedScene" uid="uid://n0lwp263pqys" path="res://scenes/common/health_component.tscn" id="2_y4xb3"]
 [ext_resource type="Script" path="res://scripts/player/player_hands.gd" id="4_064gd"]
 [ext_resource type="VoxelBlockyTypeLibrary" uid="uid://c7aemhrd4kvsy" path="res://resources/voxel_block_library.tres" id="5_5801w"]
-[ext_resource type="Resource" uid="uid://bh4f3xyyxfdql" path="res://resources/items_library.tres" id="5_qnsii"]
 [ext_resource type="PackedScene" uid="uid://clt86wlubencc" path="res://scenes/items/dropped_item.tscn" id="6_6kxdw"]
+[ext_resource type="Script" path="res://scripts/player/sway.gd" id="6_pfl55"]
+[ext_resource type="Script" path="res://scripts/player/item_holder.gd" id="7_6g6ng"]
 [ext_resource type="Theme" uid="uid://c1tenirmy1xiy" path="res://assets/menu/main_menu_theme.tres" id="10_fsqbe"]
+[ext_resource type="Animation" uid="uid://d2xgiqj6sh8c1" path="res://assets/animations/sheild_ani.tres" id="10_xser0"]
 [ext_resource type="Script" path="res://scripts/player/ground_check.gd" id="11_5go8a"]
 [ext_resource type="Script" path="res://addons/CameraShake3D/CameraShake3D/CameraShake3DNode.gd" id="11_8ntd3"]
 [ext_resource type="Texture2D" uid="uid://caymkbt21b5xt" path="res://assets/models/runestone player_Head Base Color.png" id="11_brm37"]
+[ext_resource type="Resource" uid="uid://cyrxj8chkhpni" path="res://resources/Items.tres" id="11_tv738"]
 [ext_resource type="Texture2D" uid="uid://c2l4cjrtvlrxb" path="res://assets/models/runestone player_right arm 1 Base Color.png" id="12_kn6c7"]
 [ext_resource type="Texture2D" uid="uid://bn8o8fi2fh0ju" path="res://assets/models/runestone player_right arm 2 Base Color.png" id="13_6o3iq"]
 [ext_resource type="AudioStream" uid="uid://brsc44tm3my31" path="res://assets/sounds/other/Eat1.ogg" id="13_y6cgu"]
@@ -415,210 +419,37 @@ _data = {
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_wbd57"]
 
-[sub_resource type="Animation" id="Animation_4e7vc"]
+[sub_resource type="Animation" id="Animation_erbhp"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Hand:rotation")
+tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(2),
 "update": 0,
 "values": [Vector3(0, -1.5708, 2.59181)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Hand:position")
+tracks/1/path = NodePath(".:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(2.2974),
 "update": 0,
-"values": [Vector3(0.333, -0.536575, -0.225)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/path = NodePath("../../../punch:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../eat:playing")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"values": [Vector3(0.340412, -0.537, -0.225)]
 }
 
-[sub_resource type="Animation" id="Animation_6iggv"]
-resource_name = "attack"
-length = 0.32
-loop_mode = 2
-capture_included = true
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Hand:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.133333, 0.266667),
-"transitions": PackedFloat32Array(0.87055, 1.6245, 2),
-"update": 2,
-"values": [Vector3(0, -1.5708, 2.59181), Vector3(0.191986, -1.35263, 2.90597), Vector3(-0.352556, -1.24093, 2.13803)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hand:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.166667),
-"transitions": PackedFloat32Array(1.46409, 1),
-"update": 2,
-"values": [Vector3(0.333, -0.536575, -0.225), Vector3(0.208, -0.507, -0.29)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../../../punch:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_wlwky"]
-resource_name = "eat"
-length = 4.0
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Hand:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.333, -0.536575, -0.225), Vector3(0.333, -0.537, 0.035)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hand:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3, 0.4, 0.533333, 0.666667, 0.766667, 0.866667, 1, 1.13333, 1.26667, 1.36667, 1.5, 1.63333, 1.7, 1.8, 1.93333, 2.06667, 2.2, 2.3, 2.43333, 2.56667, 2.66667, 2.76667, 2.9, 3.03333, 3.16667, 3.26667, 3.4, 3.53333, 3.6, 3.7, 3.83333, 3.96667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 2.59181), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181), Vector3(0, -0.340339, 2.68781), Vector3(0, -0.340339, 2.59181)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../eat:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.666667, 1.56667, 2.26667, 3.03333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, true, true, true, true]
-}
-
-[sub_resource type="Animation" id="Animation_kn7ks"]
-resource_name = "idle"
-length = 0.5
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Hand:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 2.59181)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hand:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.812252, 1),
-"update": 0,
-"values": [Vector3(0.333, -0.536575, -0.225), Vector3(0.333, -0.507, -0.225)]
-}
-
-[sub_resource type="Animation" id="Animation_gg6wc"]
-resource_name = "pick up"
-length = 0.2
-
-[sub_resource type="Animation" id="Animation_stbf1"]
-resource_name = "walk"
-length = 0.4
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Hand:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(0.392292, 0.659754),
-"update": 0,
-"values": [Vector3(0, -1.5708, 2.59181), Vector3(0.0349066, -1.5708, 2.60927)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hand:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.366667),
-"transitions": PackedFloat32Array(1.93187, 1),
-"update": 0,
-"values": [Vector3(0.333, -0.536575, -0.225), Vector3(0.333, -0.577, -0.225)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_wp2up"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k023v"]
 _data = {
-"RESET": SubResource("Animation_4e7vc"),
-"attack": SubResource("Animation_6iggv"),
-"eat": SubResource("Animation_wlwky"),
-"idle": SubResource("Animation_kn7ks"),
-"pick up": SubResource("Animation_gg6wc"),
-"walk": SubResource("Animation_stbf1")
+"RESET": SubResource("Animation_erbhp"),
+"sheild_ani": ExtResource("10_xser0")
 }
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ar6mo"]
@@ -710,6 +541,8 @@ max_health = 50
 fall_hurt_height = 3.0
 hunger_update_time = 15.0
 hunger_step = 0.05
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_y4xb3")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -905,20 +738,25 @@ attributes = SubResource("CameraAttributesPhysical_wbd57")
 transform = Transform3D(1, 0, 0, 0, -4.47035e-08, -1, 0, 1, -4.47035e-08, 0, 0, -0.0823141)
 target_position = Vector3(1.45519e-11, -5, 1.45519e-11)
 collision_mask = 3
+collide_with_areas = true
+collide_with_bodies = false
 debug_shape_custom_color = Color(0.988235, 0, 0, 0.0823529)
 
 [node name="Drop_node" type="Node3D" parent="RotationRoot/Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.475605, -0.61644)
 
-[node name="Hand" type="Node3D" parent="RotationRoot/Head/Camera3D"]
-transform = Transform3D(3.08654e-06, 1.89145e-06, -1, 0.522502, -0.852638, 0, -0.852638, -0.522502, -3.61999e-06, 0.333, -0.536575, -0.225)
+[node name="Sway" type="Node3D" parent="RotationRoot/Head/Camera3D"]
+script = ExtResource("6_pfl55")
 
-[node name="HandAni" type="AnimationPlayer" parent="RotationRoot/Head"]
-root_node = NodePath("../Camera3D")
+[node name="item_holder" type="Node3D" parent="RotationRoot/Head/Camera3D/Sway"]
+transform = Transform3D(3.08654e-06, 1.89145e-06, -1, 0.522502, -0.852638, 0, -0.852638, -0.522502, -3.61999e-06, 0.340412, -0.537, -0.225)
+script = ExtResource("7_6g6ng")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RotationRoot/Head/Camera3D/Sway"]
+root_node = NodePath("../item_holder")
 libraries = {
-"": SubResource("AnimationLibrary_wp2up")
+"": SubResource("AnimationLibrary_k023v")
 }
-playback_default_blend_time = 0.3
 
 [node name="eat" type="AudioStreamPlayer" parent="RotationRoot/Head"]
 stream = SubResource("AudioStreamRandomizer_ar6mo")
@@ -943,13 +781,13 @@ visible = false
 target_position = Vector3(0, 0, -1)
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
-[node name="Hands" type="Node" parent="." node_paths=PackedStringArray("terrain_interaction", "floor_ray", "hand_ani", "interactable_icon", "break_block")]
+[node name="Hands" type="Node" parent="." node_paths=PackedStringArray("terrain_interaction", "floor_ray", "item_holder", "interactable_icon", "break_block")]
 script = ExtResource("4_064gd")
 terrain_interaction = NodePath("TerrainInteraction")
-items_library = ExtResource("5_qnsii")
+items_library = ExtResource("11_tv738")
 floor_ray = NodePath("../floor")
 drop_item_scene = ExtResource("6_6kxdw")
-hand_ani = NodePath("../RotationRoot/Head/HandAni")
+item_holder = NodePath("../RotationRoot/Head/Camera3D/Sway/item_holder")
 interactable_icon = NodePath("../interactable")
 break_block = NodePath("TerrainInteraction/BlockOutline/BlockBreak")
 
@@ -959,13 +797,14 @@ distance = 5.0
 camera = NodePath("../../RotationRoot/Head/Camera3D")
 block = NodePath("BlockOutline")
 voxel_blocky_type_library = ExtResource("5_5801w")
-item_library = ExtResource("5_qnsii")
+item_library = ExtResource("11_tv738")
 ping_label = NodePath("../../Ping")
 
 [node name="BlockOutline" type="Node3D" parent="Hands/TerrainInteraction"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Area3D" type="Area3D" parent="Hands/TerrainInteraction/BlockOutline"]
+visible = false
 collision_layer = 0
 collision_mask = 134217728
 
@@ -1080,7 +919,7 @@ player = NodePath("..")
 floor_ray = NodePath("../feet")
 head_ray = NodePath("../head check")
 voxel_blocky_type_library = ExtResource("5_5801w")
-item_library = ExtResource("5_qnsii")
+item_library = ExtResource("11_tv738")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_2gamh")
@@ -1161,6 +1000,7 @@ collision_mask = 2
 hit_from_inside = true
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
+[connection signal="child_order_changed" from="RotationRoot/Head/Camera3D/Sway/item_holder" to="RotationRoot/Head/Camera3D/Sway/item_holder" method="_on_child_order_changed"]
 [connection signal="block_broken" from="Hands/TerrainInteraction" to="Hands/TerrainInteraction" method="_on_block_broken"]
 [connection signal="body_entered" from="Hands/TerrainInteraction/BlockOutline/Area3D" to="Hands/TerrainInteraction" method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Hands/TerrainInteraction/BlockOutline/Area3D" to="Hands/TerrainInteraction" method="_on_Area_body_exited"]

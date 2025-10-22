@@ -101,7 +101,7 @@ func update_nav_path():
 		if OK:
 			for point in OK:
 				nav_path.append(point)
-			print(nav_path)
+			#print(nav_path)
 		#nav_path = OK
 		#for i in nav_path:
 			#Nav.create_visual_debug(i)

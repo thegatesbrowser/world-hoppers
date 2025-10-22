@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="ItemTool" load_steps=6 format=3 uid="uid://cyhdhdihr4bxc"]
+[gd_resource type="Resource" script_class="ItemTool" load_steps=5 format=3 uid="uid://cyhdhdihr4bxc"]
 
 [ext_resource type="PackedScene" uid="uid://82s1wrisejgt" path="res://assets/models/tools/Weapons/dagger.tscn" id="1_nwf5n"]
 [ext_resource type="Script" path="res://scripts/items/item_tool.gd" id="1_tld5t"]
 [ext_resource type="Resource" uid="uid://hns36dm0dpw3" path="res://resources/projectiles/dagger.tres" id="2_8cw0f"]
-[ext_resource type="Script" path="res://scripts/items/item_block.gd" id="2_simxy"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ewqu8"]
 
 [resource]
 script = ExtResource("1_tld5t")
-suitable_objects = Array[ExtResource("2_simxy")]([])
+suitable_blocks = Array[StringName]([])
 breaking_efficiency = 0.0
 damage = 2
 max_health = 20.0
@@ -18,6 +17,7 @@ projectable = false
 projectile_resource = ExtResource("2_8cw0f")
 amount_needed = 0
 throws_self = true
+toggle_ani = false
 unique_name = &""
 texture = SubResource("PlaceholderTexture2D_ewqu8")
 max_stack = 64

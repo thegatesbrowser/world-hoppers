@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://c1tenirmy1xiy" path="res://assets/menu/main_menu_theme.tres" id="1_6ja64"]
 [ext_resource type="Script" path="res://scripts/ui/loading_page.gd" id="2_ijexi"]
-[ext_resource type="Resource" uid="uid://bh4f3xyyxfdql" path="res://resources/items_library.tres" id="3_2smj6"]
+[ext_resource type="Resource" uid="uid://cyrxj8chkhpni" path="res://resources/Items.tres" id="3_2an8m"]
 [ext_resource type="PackedScene" uid="uid://de27e3hbp0hph" path="res://scenes/multiplayer.tscn" id="3_cfeif"]
 [ext_resource type="AudioStream" uid="uid://8srankxfcp10" path="res://assets/sounds/music/Untitled song (3).mp3" id="4_23x62"]
 [ext_resource type="Texture2D" uid="uid://dcbox1b26srt8" path="res://assets/textures/Screenshot (881).png" id="5_6kspw"]
@@ -49,7 +49,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6ja64")
 script = ExtResource("2_ijexi")
-itemLIB = ExtResource("3_2smj6")
+itemLIB = ExtResource("3_2an8m")
 scene = ExtResource("3_cfeif")
 loading_bar = NodePath("ProgressBar")
 

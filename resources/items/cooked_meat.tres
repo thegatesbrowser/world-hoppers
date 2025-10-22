@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ItemFood" load_steps=9 format=3 uid="uid://cmt66qn8cepqr"]
+[gd_resource type="Resource" script_class="ItemFood" load_steps=10 format=3 uid="uid://cmt66qn8cepqr"]
 
 [ext_resource type="PackedScene" uid="uid://bbybfarbjmrqc" path="res://assets/models/food/cooked_meat.tscn" id="1_l0sxf"]
 [ext_resource type="Script" path="res://scripts/items/item_food.gd" id="1_q81vl"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://m5xks8ypy66x" path="res://assets/textures/items/cooked meat (2).png" id="3_hq51q"]
 [ext_resource type="PackedScene" uid="uid://b408c4ylxecnv" path="res://assets/models/food/cooked_meat_2.tscn" id="3_jkia5"]
 [ext_resource type="Texture2D" uid="uid://b2pj8ty8f2jyy" path="res://assets/textures/items/cooked meat (1).png" id="4_2d2j3"]
+[ext_resource type="Animation" uid="uid://bnrjjdwfq2qmo" path="res://assets/animations/eat.res" id="9_cbj6b"]
 
 [resource]
 script = ExtResource("1_q81vl")
@@ -17,9 +18,12 @@ time_rot_step = 4.0
 max_rot_steps = 4
 rot_step_textures = Array[Texture]([ExtResource("1_vqfmi"), ExtResource("2_pjlux"), ExtResource("3_hq51q"), ExtResource("4_2d2j3")])
 rot_step_holdable_models = Array[PackedScene]([ExtResource("1_l0sxf"), ExtResource("2_j127q"), ExtResource("3_jkia5"), ExtResource("3_jkia5")])
+use_ani = ExtResource("9_cbj6b")
 unique_name = &"cooked_meat"
 texture = ExtResource("1_vqfmi")
 max_stack = 64
 rotatable = false
+drop_items = Array[StringName]([])
 forgable = false
 forge_time = 2.0
+value = 10

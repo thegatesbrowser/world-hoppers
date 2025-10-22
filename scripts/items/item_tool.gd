@@ -20,6 +20,7 @@ class_name ItemTool
 
 @export_group("animations")
 @export var use_ani:Animation
+@export var toggle_ani:bool = false
 
 var health:float
 

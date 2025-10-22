@@ -2,19 +2,21 @@
 
 [ext_resource type="PackedScene" uid="uid://c8315ui4gke66" path="res://assets/models/tools/Stone/sword_stone.tscn" id="1_1feko"]
 [ext_resource type="Script" path="res://scripts/items/item_tool.gd" id="1_oyasi"]
-[ext_resource type="Script" path="res://scripts/items/item_block.gd" id="2_0ypvo"]
 [ext_resource type="Texture2D" uid="uid://dudcasy8dleom" path="res://assets/textures/items/stone_sword.png" id="4_sppuj"]
+[ext_resource type="Animation" uid="uid://bbo1ea7xm654" path="res://assets/animations/sword_use.res" id="4_w45yr"]
 
 [resource]
 script = ExtResource("1_oyasi")
-suitable_objects = Array[ExtResource("2_0ypvo")]([])
+suitable_blocks = Array[StringName]([])
 breaking_efficiency = 0.0
 damage = 5
 max_health = 10.0
-degrade_rate = 1.0
+degrade_rate = 1
 projectable = false
 amount_needed = 0
 throws_self = false
+use_ani = ExtResource("4_w45yr")
+toggle_ani = false
 unique_name = &""
 texture = ExtResource("4_sppuj")
 max_stack = 1

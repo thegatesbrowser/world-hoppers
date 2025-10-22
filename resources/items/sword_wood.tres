@@ -2,21 +2,27 @@
 
 [ext_resource type="Script" path="res://scripts/items/item_tool.gd" id="1_26bdr"]
 [ext_resource type="PackedScene" uid="uid://dhfixn00uwcgq" path="res://assets/models/tools/Wood/sword_wood.tscn" id="1_an1rw"]
-[ext_resource type="Script" path="res://scripts/items/item_block.gd" id="2_56aca"]
 [ext_resource type="Texture2D" uid="uid://bsycnwg5wwakp" path="res://assets/textures/items/wood_sword.png" id="4_2uoym"]
+[ext_resource type="Animation" uid="uid://bbo1ea7xm654" path="res://assets/animations/sword_use.res" id="4_wjm7j"]
 
 [resource]
 script = ExtResource("1_26bdr")
-suitable_objects = Array[ExtResource("2_56aca")]([])
+suitable_blocks = Array[StringName]([])
 breaking_efficiency = 0.0
 damage = 3
 max_health = 5.0
-degrade_rate = 0.1
+degrade_rate = 1
+projectable = false
+amount_needed = 0
+throws_self = false
+use_ani = ExtResource("4_wjm7j")
+toggle_ani = false
 unique_name = &""
 texture = ExtResource("4_2uoym")
 max_stack = 1
 holdable_mesh = ExtResource("1_an1rw")
 rotatable = false
+drop_items = Array[StringName]([])
 forgable = false
 forge_time = 2.0
 value = 10

@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://c1tenirmy1xiy" path="res://assets/menu/main_menu_theme.tres" id="1_e6rhx"]
 [ext_resource type="Script" path="res://scripts/ui/inventory.gd" id="1_vh6pj"]
 [ext_resource type="PackedScene" uid="uid://dp3vw6ecck05s" path="res://scenes/ui/slot.tscn" id="3_v400e"]
-[ext_resource type="Resource" uid="uid://bh4f3xyyxfdql" path="res://resources/items_library.tres" id="4_2bd2u"]
+[ext_resource type="Resource" uid="uid://cyrxj8chkhpni" path="res://resources/Items.tres" id="3_y118i"]
 
 [node name="Inventory" type="ScrollContainer" node_paths=PackedStringArray("slot_container")]
 process_mode = 3
@@ -24,7 +24,7 @@ theme = ExtResource("1_e6rhx")
 horizontal_scroll_mode = 0
 script = ExtResource("1_vh6pj")
 slot_container = NodePath("PanelContainer/MarginContainer/VBoxContainer/Items")
-items_library = ExtResource("4_2bd2u")
+items_library = ExtResource("3_y118i")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2

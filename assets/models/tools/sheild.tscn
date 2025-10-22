@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c47aq0n6j0vw5"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_p1yny"]
+height = 0.039
+
+[node name="Sheild" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(0.218344, -0.975872, 0, 0.975872, 0.218344, 0, 0, 0, 1, -0.0475299, 0.0948221, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(0.72087, -0.69307, 0, 0.69307, 0.72087, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_p1yny")

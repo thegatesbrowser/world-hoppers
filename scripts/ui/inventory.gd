@@ -21,9 +21,6 @@ func _ready() -> void:
 		slot.item_changed.connect(change)
 
 	if is_in_group("Main Inventory"):
-		Console.add_command("item", self, '_on_add_random_item_pressed')\
-		.set_description("spawns random item).")\
-		.register()
 		
 		if Backend.playerdata:
 			if Backend.playerdata.Inventory:
@@ -197,7 +194,7 @@ func open_with_meta(data):
 func add_meta_data(data):
 	
 	#print("data",data)
-	TerrainHelper.get_terrain_tool().get_voxel_tool().set_voxel_metadata(id,data)
+	Helper.terrian.get_voxel_tool().set_voxel_metadata(id,data)
 	#print(" change",TerrainHelper.get_terrain_tool().get_voxel_tool().get_voxel_metadata(id))
 
 ## updates the ui with the backend playerdata

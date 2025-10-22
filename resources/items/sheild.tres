@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="ItemTool" load_steps=5 format=3 uid="uid://bjdfjo65f6vun"]
+
+[ext_resource type="Script" path="res://scripts/items/item_tool.gd" id="1_fxllw"]
+[ext_resource type="PackedScene" uid="uid://c47aq0n6j0vw5" path="res://assets/models/tools/sheild.tscn" id="1_l0oa0"]
+[ext_resource type="Animation" uid="uid://d2xgiqj6sh8c1" path="res://assets/animations/sheild_ani.tres" id="3_15pjf"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d7h7q"]
+
+[resource]
+script = ExtResource("1_fxllw")
+suitable_blocks = Array[StringName]([])
+breaking_efficiency = 0.0
+damage = 2
+max_health = 20.0
+degrade_rate = 1
+projectable = false
+amount_needed = 0
+throws_self = false
+use_ani = ExtResource("3_15pjf")
+toggle_ani = true
+unique_name = &"sheild"
+texture = SubResource("PlaceholderTexture2D_d7h7q")
+max_stack = 1
+holdable_mesh = ExtResource("1_l0oa0")
+rotatable = false
+drop_items = Array[StringName]([])
+forgable = false
+forge_time = 2.0
+value = 10

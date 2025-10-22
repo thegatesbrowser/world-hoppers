@@ -13,7 +13,7 @@ output_amount = 1
 items_needed = {
 1: {
 "amount": 4,
-"name": "wood",
+"name": "planks",
 "texture": ExtResource("1_yrkef")
 },
 2: {

@@ -2,7 +2,6 @@ extends Node
 
 # Debugging.
 enum Level { DEBUG = 0, INFO = 1, WARNING = 2, ERROR = 3, CRITICAL = 4 }
-@export var print_level := Logger.LogLevel.WARNING
 @export var single_threaded_generate := false
 @export var single_threaded_render := false
 @export var capture_mouse_on_start := true
@@ -71,8 +70,8 @@ signal send_slot_data(data:Dictionary)
 signal ask_for_portal(x,y,z)
 
 func _ready():
-	Print.create_logger(0, print_level, Print.VERBOSE)
-	
+	#Print.create_logger(0, print_level, Print.VERBOSE)
+	pass
 
 func find_item(item:ItemBase,inventory:bool = true,hotbar:bool = true, blueprints:bool = false) -> Slot:
 	var return_ = null

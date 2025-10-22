@@ -3,9 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c3hsxgmqwip4g" path="res://addons/fps_counter/Counter.tscn" id="1"]
 [ext_resource type="Script" path="res://addons/fps_counter/FpsCounter.gd" id="2"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="FpsCounter" type="CanvasLayer"]
 layer = 128
-visible = false
 script = ExtResource("2")
 
 [node name="Counter" parent="." instance=ExtResource("1")]

@@ -27,10 +27,6 @@ func _ready():
 		#address = "ws://127.0.0.1:8819"
 	else:
 		address = exported_address
-	
-	Console.add_command("saveD", self, 'saveD')\
-		.set_description("shows the saved player data from the backend).")\
-		.register()
 	#Globals.send_data.connect(update)
 	Globals.ask_for_portal.connect(ask_for_portal_url)
 	Globals.send_slot_data.connect(update_slot)
@@ -189,7 +185,7 @@ func ask_for_portal_url(voxel_x,voxel_y,voxel_z):
 
 @rpc("any_peer",'call_local')
 func set_portal_url(x,y,z):
-	var voxel_tool = TerrainHelper.get_terrain_tool().get_voxel_tool()
+	var voxel_tool = Helper.terrian.get_voxel_tool()
 	voxel_tool.set_voxel_metadata(Vector3(x,y,z),"test")
 	#voxel_tool.set_voxel(Vector3(x,y,z),11)
 	print("created portal at ",Vector3(x,y,z))

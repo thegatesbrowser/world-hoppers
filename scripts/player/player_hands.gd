@@ -6,7 +6,7 @@ extends Node
 @export var voxel_library = preload("res://resources/voxel_block_library.tres")
 @export var floor_ray:RayCast3D
 @export var drop_item_scene:PackedScene
-@export var hand_ani:AnimationPlayer
+@export var item_holder:Node3D
 @export var interactable_icon:TextureRect
 @export var break_block:Node3D
 
@@ -16,8 +16,8 @@ var mine_timer: Timer
 var mining_block:Vector3i
 
 func _ready():
+	items_library.init_items(true)
 	Globals.drop_item.connect(drop)
-	items_library.init_items()
 	terrain_interaction.enable()
 	
 	mine_timer = Timer.new()
@@ -57,21 +57,21 @@ func _process(_delta: float) -> void:
 						eat_timer.name = "food eat timer"
 						eat_timer.start()
 						
-						if hand_ani.current_animation != "eat":
-								hand_ani.play("eat")
+						#if hand_ani.current_animation != "eat":
+								#hand_ani.play("eat")
 								
 						await eat_timer.timeout
 						
 						if Input.is_action_pressed("Build"):
 							#eat_sfx.play()
 							
-								
 							if item != null:
 								Globals.hunger_points_gained.emit(item.food_points)
 								print("ate ", item.unique_name, " gained ", item.food_points," food points")
 								Globals.remove_item_from_hotbar.emit()
 								Globals.remove_item_in_hand.emit()
-								hand_ani.stop()
+								#hand_ani.stop()
+			
 
 	if Input.is_action_just_pressed("Mine"):
 		if !get_parent().crouching:
@@ -79,6 +79,9 @@ func _process(_delta: float) -> void:
 			if is_interactable(): return
 				
 	if Input.is_action_pressed("Mine"):
+		var current_slot = Helper.hotbar.get_current()
+		var current_item:ItemBase = current_slot.item
+	
 		if terrain_interaction.last_hit != null:
 			if not mine_timer.is_stopped():
 				if mining_block != terrain_interaction.last_hit.position:
@@ -90,15 +93,13 @@ func _process(_delta: float) -> void:
 				mining_block = terrain_interaction.last_hit.position
 				var breaking_block:String = terrain_interaction.get_type()
 				
-				var item:ItemBlock = items_library.get_item(breaking_block)
+				var item:ItemBase = items_library.get_item(breaking_block)
 				var break_time:float
 				
 				if item:
 					var base_break_time:float = item.break_time
 					var reduction:float
 					
-					var current_slot = Helper.hotbar.get_current()
-					var current_item:ItemBase = current_slot.item
 					if current_item != null:
 						
 						if current_item is ItemTool:
@@ -113,7 +114,7 @@ func _process(_delta: float) -> void:
 					break_block.start_break(break_time)
 					
 					mine_timer.wait_time = break_time
-					print(break_time,":base_break_time ",base_break_time," reduction ",reduction," timer ",mine_timer.wait_time)
+					#print(break_time,":base_break_time ",base_break_time," reduction ",reduction," timer ",mine_timer.wait_time)
 					mine_timer.start()
 					mine_timer.connect("timeout",Callable(self,"_break_block").bind(breaking_block))
 	else:
@@ -200,6 +201,6 @@ func receive_meta(meta_data, type:int, position:Vector3):
 func _break_block(block_type:String):
 	mine_timer.disconnect("timeout",Callable(self,"_break_block"))
 	if Input.is_action_pressed("Mine"):
-		print(block_type)
+		#print(block_type)
 		break_block.stop()
 		terrain_interaction.break_block()
