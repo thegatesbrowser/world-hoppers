@@ -39,5 +39,5 @@ func load_helper() -> void:
 	inventory_array = get_node("/root/Main").find_child("Inventory_Array")
 	
 
-func test():
+func test(text:String,color:Color):
 	print("autoloads")

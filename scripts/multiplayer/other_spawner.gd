@@ -13,7 +13,7 @@ func _ready() -> void:
 func print_spawned_object(id:int,object):
 	print("spawned ",id,object)
 
-@rpc("authority")
+@rpc("any_peer")
 func spawn_object(data := []) -> void:
 	if not multiplayer.is_server(): return
 	spawn(data)
@@ -24,6 +24,7 @@ func custom_spawn(data: Array) -> Node:
 	var instance_scene_path
 	var item_path
 	var amount
+	var spawn_viewer:bool
 	if data.size() >= 1:
 		id = data[0]
 	if data.size() >= 2:
@@ -33,7 +34,9 @@ func custom_spawn(data: Array) -> Node:
 	if data.size() >= 4:
 		item_path= data[3]
 	if data.size() >= 5:
-		amount = data[4]
+		spawn_viewer = data[4]
+	if data.size() >= 6:
+		amount = data[5]
 	
 	var object = load(instance_scene_path).instantiate()
 	
@@ -51,9 +54,21 @@ func custom_spawn(data: Array) -> Node:
 			
 	if amount != null:
 		object.amount = amount
-		
+	if spawn_viewer:
+		create_viewer(id,object)
 	object.set_multiplayer_authority(id,true)
 	
 	spawned_object.emit(id, object)
 	return object
 	
+func create_viewer(id: int, object) -> void:
+	if Connection.is_server():
+		var viewer := VoxelViewer.new()
+
+		viewer.view_distance = 10
+		viewer.requires_visuals = false
+		viewer.requires_collisions = true
+		
+		viewer.set_network_peer_id(id)
+		viewer.set_requires_data_block_notifications(true)
+		object.add_child(viewer)

@@ -317,6 +317,7 @@ func add_item_to_hand(scene:PackedScene) -> void:
 	item_holder.add_child(holdable_mesh) 
 
 func remove_item_in_hand() -> void:
+	
 	for i in item_holder.get_children():
 		i.queue_free()
 	
@@ -519,7 +520,7 @@ func mine_and_place(delta:float):
 				if hotbar_item.throws_self:
 					var current_slot = hotbar.get_current() as Slot
 					current_slot.amount -= 1
-					Helper.object_spawner.spawn_object.rpc_id(1,[get_multiplayer_authority(),_camera_transform,"res://scenes/items/weapons/projectile.tscn",hotbar_item.projectile_resource.get_path()])
+					Helper.object_spawner.spawn_object.rpc_id(1,[get_multiplayer_authority(),_camera_transform,"res://scenes/items/weapons/projectile.tscn",hotbar_item.projectile_resource.get_path(),true])
 				else:
 					var find_item = hotbar_item.projectile_item
 					var item_slot = Globals.find_item(find_item)
@@ -527,7 +528,7 @@ func mine_and_place(delta:float):
 						if item_slot.amount - hotbar_item.amount_needed:
 							if item_slot.amount >= 0:
 								item_slot.amount -= hotbar_item.amount_needed
-								Helper.object_spawner.spawn_object.rpc_id(1,[get_multiplayer_authority(),_camera_transform,"res://scenes/items/weapons/projectile.tscn",hotbar_item.projectile_resource.get_path()])
+								Helper.object_spawner.spawn_object.rpc_id(1,[get_multiplayer_authority(),_camera_transform,"res://scenes/items/weapons/projectile.tscn",hotbar_item.projectile_resource.get_path(),true])
 					
 func _speed_mode():
 	speed_mode = !speed_mode

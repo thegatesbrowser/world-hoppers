@@ -8,3 +8,4 @@ script = ExtResource("1_vk4fh")
 speed = 0.2
 model = ExtResource("1_58clc")
 damage = 2
+explode_on_contact = true
