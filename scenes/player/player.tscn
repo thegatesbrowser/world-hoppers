@@ -1,9 +1,11 @@
-[gd_scene load_steps=64 format=4 uid="uid://bbet1xkqsp2wo"]
+[gd_scene load_steps=67 format=4 uid="uid://bbet1xkqsp2wo"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/player/terrain_interaction.gd" id="2_5q13p"]
 [ext_resource type="PackedScene" uid="uid://n0lwp263pqys" path="res://scenes/common/health_component.tscn" id="2_y4xb3"]
+[ext_resource type="Script" path="res://scripts/player/player_hands.gd" id="4_064gd"]
 [ext_resource type="VoxelBlockyTypeLibrary" uid="uid://c7aemhrd4kvsy" path="res://resources/voxel_block_library.tres" id="5_5801w"]
+[ext_resource type="PackedScene" uid="uid://clt86wlubencc" path="res://scenes/items/dropped_item.tscn" id="6_6kxdw"]
 [ext_resource type="Script" path="res://scripts/player/sway.gd" id="6_pfl55"]
 [ext_resource type="Script" path="res://scripts/player/item_holder.gd" id="7_6g6ng"]
 [ext_resource type="Theme" uid="uid://c1tenirmy1xiy" path="res://assets/menu/main_menu_theme.tres" id="10_fsqbe"]
@@ -489,6 +491,23 @@ size = Vector3(0.01, 1, 0.01)
 shading_mode = 0
 albedo_color = Color(0, 0, 0, 1)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2gamh"]
+properties/0/path = NodePath(".:_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:_velocity")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:_direction")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:_rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:_camera_transform")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0y12"]
 random_volume_offset_db = 2.45
 streams_count = 1
@@ -529,14 +548,14 @@ hunger_step = 0.05
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("10")
 
-[node name="Pivot" type="Node3D" parent="."]
+[node name="RotationRoot" type="Node3D" parent="."]
 
-[node name="Model" type="Node3D" parent="Pivot"]
+[node name="Model" type="Node3D" parent="RotationRoot"]
 
-[node name="Player" type="Node3D" parent="Pivot/Model"]
+[node name="Player" type="Node3D" parent="RotationRoot/Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.711247, 0)
 
-[node name="Skeleton3D" type="Skeleton3D" parent="Pivot/Model/Player"]
+[node name="Skeleton3D" type="Skeleton3D" parent="RotationRoot/Model/Player"]
 bones/0/name = "back"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 1, 1.14868e-07, 0, -1.14868e-07, 1, 0, 0, 0)
@@ -650,72 +669,72 @@ bones/15/position = Vector3(0, 0, 0)
 bones/15/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
 bones/15/scale = Vector3(1, 1, 1)
 
-[node name="Head" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="Head" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_14bnm")
 skin = SubResource("Skin_kjrme")
 
-[node name="left arm 1" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="left arm 1" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_wpyk8")
 skin = SubResource("Skin_kjrme")
 
-[node name="left arm 2" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="left arm 2" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_qsdr2")
 skin = SubResource("Skin_kjrme")
 
-[node name="left leg 1" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="left leg 1" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_ouks7")
 skin = SubResource("Skin_kjrme")
 
-[node name="left leg 2" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="left leg 2" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_yfkkj")
 skin = SubResource("Skin_kjrme")
 
-[node name="right arm 1" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="right arm 1" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_wlk0m")
 skin = SubResource("Skin_kjrme")
 
-[node name="right arm 2" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="right arm 2" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_rqevp")
 skin = SubResource("Skin_kjrme")
 
-[node name="right leg 1" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="right leg 1" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_o6tu4")
 skin = SubResource("Skin_kjrme")
 
-[node name="right leg 2" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="right leg 2" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("ArrayMesh_2hfa6")
 skin = SubResource("Skin_kjrme")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot/Model/Player/Skeleton3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RotationRoot/Model/Player/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.299107, 0)
 material_override = SubResource("StandardMaterial3D_lyiwi")
 mesh = SubResource("BoxMesh_505ks")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot/Model"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RotationRoot/Model"]
 libraries = {
 "": SubResource("AnimationLibrary_asj5l")
 }
 
-[node name="Head" type="MeshInstance3D" parent="Pivot"]
+[node name="Head" type="MeshInstance3D" parent="RotationRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 layers = 32
 skeleton = NodePath("../..")
 
-[node name="Camera3D" type="Camera3D" parent="Pivot/Head"]
+[node name="Camera3D" type="Camera3D" parent="RotationRoot/Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
 cull_mask = 1048543
 attributes = SubResource("CameraAttributesPhysical_wbd57")
 
-[node name="RayCast3D" type="RayCast3D" parent="Pivot/Head/Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="RotationRoot/Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.47035e-08, -1, 0, 1, -4.47035e-08, 0, 0, -0.0823141)
 target_position = Vector3(1.45519e-11, -5, 1.45519e-11)
 collision_mask = 3
@@ -723,162 +742,171 @@ collide_with_areas = true
 collide_with_bodies = false
 debug_shape_custom_color = Color(0.988235, 0, 0, 0.0823529)
 
-[node name="Drop_node" type="Node3D" parent="Pivot/Head/Camera3D"]
+[node name="Drop_node" type="Node3D" parent="RotationRoot/Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.475605, -0.61644)
 
-[node name="Sway" type="Node3D" parent="Pivot/Head/Camera3D"]
+[node name="Sway" type="Node3D" parent="RotationRoot/Head/Camera3D"]
 script = ExtResource("6_pfl55")
 
-[node name="item_holder" type="Node3D" parent="Pivot/Head/Camera3D/Sway"]
+[node name="item_holder" type="Node3D" parent="RotationRoot/Head/Camera3D/Sway"]
 transform = Transform3D(3.08654e-06, 1.89145e-06, -1, 0.522502, -0.852638, 0, -0.852638, -0.522502, -3.61999e-06, 0.340412, -0.537, -0.225)
 script = ExtResource("7_6g6ng")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot/Head/Camera3D/Sway"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RotationRoot/Head/Camera3D/Sway"]
 root_node = NodePath("../item_holder")
 libraries = {
 "": SubResource("AnimationLibrary_k023v")
 }
 
-[node name="eat" type="AudioStreamPlayer" parent="Pivot/Head"]
+[node name="eat" type="AudioStreamPlayer" parent="RotationRoot/Head"]
 stream = SubResource("AudioStreamRandomizer_ar6mo")
 volume_db = -6.11765
 pitch_scale = 1.13
 
-[node name="CameraShake3DNode" type="Node" parent="Pivot/Head" node_paths=PackedStringArray("camera")]
+[node name="CameraShake3DNode" type="Node" parent="RotationRoot/Head" node_paths=PackedStringArray("camera")]
 script = ExtResource("11_8ntd3")
 camera = NodePath("../Camera3D")
 decay = 2.0
 magnitude = 0.1
 
-[node name="AutoJump" type="RayCast3D" parent="Pivot"]
+[node name="AutoJump" type="RayCast3D" parent="RotationRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 visible = false
 target_position = Vector3(0, 0, -1)
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
-[node name="AutoJump2" type="RayCast3D" parent="Pivot"]
+[node name="AutoJump2" type="RayCast3D" parent="RotationRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
 target_position = Vector3(0, 0, -1)
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
-[node name="TerrainInteraction" type="Node" parent="." node_paths=PackedStringArray("camera", "block", "interaction_icon", "ping_label")]
+[node name="Hands" type="Node" parent="." node_paths=PackedStringArray("terrain_interaction", "floor_ray", "item_holder", "interactable_icon", "break_block")]
+script = ExtResource("4_064gd")
+terrain_interaction = NodePath("TerrainInteraction")
+items_library = ExtResource("11_tv738")
+floor_ray = NodePath("../floor")
+drop_item_scene = ExtResource("6_6kxdw")
+item_holder = NodePath("../RotationRoot/Head/Camera3D/Sway/item_holder")
+interactable_icon = NodePath("../interactable")
+break_block = NodePath("TerrainInteraction/BlockOutline/BlockBreak")
+
+[node name="TerrainInteraction" type="Node" parent="Hands" node_paths=PackedStringArray("camera", "block", "ping_label")]
 script = ExtResource("2_5q13p")
 distance = 5.0
-camera = NodePath("../Pivot/Head/Camera3D")
+camera = NodePath("../../RotationRoot/Head/Camera3D")
 block = NodePath("BlockOutline")
-interaction_icon = NodePath("../interactable")
-ping_label = NodePath("../Ping")
 voxel_blocky_type_library = ExtResource("5_5801w")
 item_library = ExtResource("11_tv738")
+ping_label = NodePath("../../Ping")
 
-[node name="BlockOutline" type="Node3D" parent="TerrainInteraction"]
+[node name="BlockOutline" type="Node3D" parent="Hands/TerrainInteraction"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="Area3D" type="Area3D" parent="TerrainInteraction/BlockOutline"]
+[node name="Area3D" type="Area3D" parent="Hands/TerrainInteraction/BlockOutline"]
 visible = false
 collision_layer = 0
 collision_mask = 134217728
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TerrainInteraction/BlockOutline/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hands/TerrainInteraction/BlockOutline/Area3D"]
 shape = SubResource("6")
 
-[node name="CollisionShape2" type="CollisionShape3D" parent="TerrainInteraction/BlockOutline/Area3D"]
+[node name="CollisionShape2" type="CollisionShape3D" parent="Hands/TerrainInteraction/BlockOutline/Area3D"]
 shape = SubResource("7")
 
-[node name="CrackOverlay" type="Node3D" parent="TerrainInteraction/BlockOutline"]
+[node name="BlockBreak" type="Node3D" parent="Hands/TerrainInteraction/BlockOutline"]
 visible = false
 script = ExtResource("16_5khb6")
 
-[node name="Block" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/CrackOverlay"]
+[node name="Block" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/BlockBreak"]
 material_override = SubResource("StandardMaterial3D_b0h68")
 mesh = SubResource("BoxMesh_8ityd")
 
-[node name="Half Time" type="Timer" parent="TerrainInteraction/BlockOutline/CrackOverlay"]
+[node name="Half Time" type="Timer" parent="Hands/TerrainInteraction/BlockOutline/BlockBreak"]
 
-[node name="End Time" type="Timer" parent="TerrainInteraction/BlockOutline/CrackOverlay"]
+[node name="End Time" type="Timer" parent="Hands/TerrainInteraction/BlockOutline/BlockBreak"]
 
-[node name="Visible_Block" type="Node3D" parent="TerrainInteraction/BlockOutline"]
+[node name="Visible_Block" type="Node3D" parent="Hands/TerrainInteraction/BlockOutline"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005, 0.02, -0.005)
 
-[node name="Edge" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge2" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge2" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge3" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge3" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge4" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge4" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, -0.5, 0)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge5" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge5" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge6" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge6" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge7" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge7" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.5, 0.5, 0)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge8" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge8" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.5, -0.5, 0)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge9" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge9" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.5, 0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge10" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge10" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.5, 0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge11" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge11" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.5, -0.5)
 cast_shadow = 0
 mesh = SubResource("8")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vtlvw")
 
-[node name="Edge12" type="MeshInstance3D" parent="TerrainInteraction/BlockOutline/Visible_Block"]
+[node name="Edge12" type="MeshInstance3D" parent="Hands/TerrainInteraction/BlockOutline/Visible_Block"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.5, -0.5)
 cast_shadow = 0
 mesh = SubResource("8")
@@ -892,6 +920,9 @@ floor_ray = NodePath("../feet")
 head_ray = NodePath("../head check")
 voxel_blocky_type_library = ExtResource("5_5801w")
 item_library = ExtResource("11_tv738")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_2gamh")
 
 [node name="hit" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_c0y12")
@@ -969,10 +1000,9 @@ collision_mask = 2
 hit_from_inside = true
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
-[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="child_order_changed" from="Pivot/Head/Camera3D/Sway/item_holder" to="Pivot/Head/Camera3D/Sway/item_holder" method="_on_child_order_changed"]
-[connection signal="block_broken" from="TerrainInteraction" to="TerrainInteraction" method="_on_block_broken"]
-[connection signal="body_entered" from="TerrainInteraction/BlockOutline/Area3D" to="TerrainInteraction" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="TerrainInteraction/BlockOutline/Area3D" to="TerrainInteraction" method="_on_Area_body_exited"]
-[connection signal="timeout" from="TerrainInteraction/BlockOutline/CrackOverlay/Half Time" to="TerrainInteraction/BlockOutline/CrackOverlay" method="_on_half_time_timeout"]
-[connection signal="timeout" from="TerrainInteraction/BlockOutline/CrackOverlay/End Time" to="TerrainInteraction/BlockOutline/CrackOverlay" method="_on_end_time_timeout"]
+[connection signal="child_order_changed" from="RotationRoot/Head/Camera3D/Sway/item_holder" to="RotationRoot/Head/Camera3D/Sway/item_holder" method="_on_child_order_changed"]
+[connection signal="block_broken" from="Hands/TerrainInteraction" to="Hands/TerrainInteraction" method="_on_block_broken"]
+[connection signal="body_entered" from="Hands/TerrainInteraction/BlockOutline/Area3D" to="Hands/TerrainInteraction" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="Hands/TerrainInteraction/BlockOutline/Area3D" to="Hands/TerrainInteraction" method="_on_Area_body_exited"]
+[connection signal="timeout" from="Hands/TerrainInteraction/BlockOutline/BlockBreak/Half Time" to="Hands/TerrainInteraction/BlockOutline/BlockBreak" method="_on_half_time_timeout"]
+[connection signal="timeout" from="Hands/TerrainInteraction/BlockOutline/BlockBreak/End Time" to="Hands/TerrainInteraction/BlockOutline/BlockBreak" method="_on_end_time_timeout"]

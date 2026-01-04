@@ -2,8 +2,6 @@
 class_name TGPackExporter
 extends Node
 
-signal export_finished # Used only internally
-
 var preset_creator: TGPresetCreator
 var timer: Timer
 var pid: int = -1
@@ -30,9 +28,6 @@ func export(settings: TGExportSettings) -> void:
 	
 	print("Exporting...")
 	start_checking_status()
-	
-	if not is_in_progress(): return
-	await export_finished
 
 
 func start_checking_status() -> void:
@@ -45,12 +40,16 @@ func check_status() -> void:
 	
 	pid = -1
 	timer.stop()
-	export_finished.emit()
+	print("Done!")
 
 
 func is_valid(settings: TGExportSettings) -> bool:
+	if settings.export_folder.is_empty():
+		printerr("Export folder is not chosen")
+		return false
+	
 	return true
 
 
 func is_in_progress() -> bool:
-	return pid != -1 and OS.is_process_running(pid)
+	return OS.is_process_running(pid)

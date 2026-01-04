@@ -6,6 +6,7 @@ signal disconnected
 
 static var is_peer_connected: bool
 
+var your_id:int
 @export var port: int
 @export var max_clients: int
 @export var host: String
@@ -13,32 +14,41 @@ static var is_peer_connected: bool
 
 
 func _ready() -> void:
-	if is_server():
-		start_server()
-	else:
-		start_client()
-	
+	if Connection.is_server(): start_server()
 	connected.connect(func(): Connection.is_peer_connected = true)
 	disconnected.connect(func(): Connection.is_peer_connected = false)
 	disconnected.connect(disconnect_all)
 
 
 static func is_server() -> bool:
-	return "--server" in OS.get_cmdline_args()
+	var args = OS.get_cmdline_args() + OS.get_cmdline_user_args()
+	return "--server" in args
+
+
+func get_port() -> int:
+	var args = OS.get_cmdline_args()
+	var index = args.find("--port")
+	
+	if index == -1 or args.size() <= index + 1: return -1
+	return int(args[index + 1])
 
 
 func start_server() -> void:
 	if max_clients == 0:
 		max_clients = 32
 	
+	var new_port = get_port()
+	if new_port != -1:
+		port = new_port
+	
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(port, max_clients)
 	if err != OK:
-		print("Cannot start server. Err: " + str(err))
+		Debug.log_msg("Cannot start server. Err: " + str(err))
 		disconnected.emit()
 		return
 	else:
-		print("Server started")
+		Debug.log_msg("Server started on port " + str(port))
 		connected.emit()
 	
 	multiplayer.multiplayer_peer = peer
@@ -54,10 +64,10 @@ func start_client() -> void:
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_client(address, port)
 	if err != OK:
-		print("Cannot start client. Err: " + str(err))
+		Debug.log_msg("Cannot start client. Err: " + str(err))
 		disconnected.emit()
 		return
-	else: print("Connecting to server...")
+	else: Debug.log_msg("Connecting to server: %s:%d..." % [address, port])
 	
 	multiplayer.multiplayer_peer = peer
 	multiplayer.connected_to_server.connect(connected_to_server)
@@ -66,26 +76,33 @@ func start_client() -> void:
 
 
 func connected_to_server() -> void:
-	print("Connected to server")
+	Debug.log_msg("Connected to server")
 	connected.emit()
 
 
 func server_connection_failure() -> void:
-	print("Disconnected")
+	Debug.log_msg("Disconnected")
 	disconnected.emit()
 
 
 func peer_connected(id: int) -> void:
-	print("Peer connected: " + str(id))
+	Debug.log_msg("Peer connected: " + str(id))
 
 
 func peer_disconnected(id: int) -> void:
-	print("Peer disconnected: " + str(id))
+	Debug.log_msg("Peer disconnected: " + str(id))
 
 
 func disconnect_all() -> void:
-	multiplayer.peer_disconnected.disconnect(peer_disconnected)
-	multiplayer.peer_connected.disconnect(peer_connected)
-	multiplayer.connected_to_server.disconnect(connected_to_server)
-	multiplayer.server_disconnected.disconnect(server_connection_failure)
-	multiplayer.connection_failed.disconnect(server_connection_failure)
+	disconnect_from_signal("peer_connected", peer_connected)
+	disconnect_from_signal("peer_disconnected", peer_disconnected)
+	disconnect_from_signal("connected_to_server", connected_to_server)
+	disconnect_from_signal("server_disconnected", server_connection_failure)
+	disconnect_from_signal("connection_failed", server_connection_failure)
+	
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+
+
+func disconnect_from_signal(signal_name: String, callable: Callable) -> void:
+	if multiplayer.is_connected(signal_name, callable):
+		multiplayer.disconnect(signal_name, callable)

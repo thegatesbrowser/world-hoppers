@@ -14,6 +14,7 @@ func export(settings: TGExportSettings) -> void:
 
 func is_valid(settings: TGExportSettings) -> bool:
 	if settings.icon.is_empty():
+		printerr("Icon is not chosen")
 		return false
 	
 	if not FileAccess.file_exists(settings.icon):
