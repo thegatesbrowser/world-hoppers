@@ -1,7 +1,7 @@
 extends Node
 
 var hotbar:HotBar
-var terrian:VoxelTerrain
+var terrian:Terrian
 var sound_manager
 var player_inventory
 var inventory_holder
@@ -12,7 +12,7 @@ var pause_menu
 var settings
 var slot_manager
 var creature_spawner:MultiplayerSpawner
-var player_spawner:MultiplayerSpawner
+var player_spawner:Node
 var object_spawner:MultiplayerSpawner
 var light_container
 var sound_container
@@ -21,7 +21,7 @@ var enviroment:WorldEnvironment
 	
 func load_helper() -> void:
 	hotbar = get_node("/root/Main").find_child("Hotbar") as HotBar
-	terrian = get_node("/root/Main").find_child("VoxelTerrain") as VoxelTerrain
+	terrian = get_node("/root/Main").find_child("VoxelTerrain")
 	sound_manager = get_node("/root/Main").find_child("SoundManager")
 	player_inventory = get_node("/root/Main").find_child("Inventory")
 	inventory_holder = get_node("/root/Main").find_child("Inventory_UI")

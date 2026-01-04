@@ -101,7 +101,6 @@ func tick():
 	if !multiplayer.is_server(): return
 	if creature_spawners.size() == 0: return
 		
-	var rng := RandomNumberGenerator.new()
 	var pos = creature_spawners.keys().pick_random()
 	
 	if pos:

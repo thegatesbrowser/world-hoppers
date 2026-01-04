@@ -23,11 +23,14 @@ func _ready() -> void:
 		# connect signals to save hotbar data
 		slot.item_changed.connect(slot_updated)
 
-	if !Backend.playerdata.is_empty():
-		if Backend.playerdata.Hotbar != null:
-			update(JSON.parse_string(Backend.playerdata.Hotbar))
 			# update the hotbar with the saved data
-			pass
+		pass
+	
+	## TODO fix saving data somewhere else other than backend
+	#if Backend.playerdata.Hotbar != null:
+		#var json := JSON.new()
+		#var data = json.parse_string(Backend.playerdata.Hotbar)
+		#update(data)
 			
 	
 			
@@ -67,7 +70,7 @@ func _press_key(i: int) -> void:
 	selected_item = null
 	slots[i].button_pressed = true
 	Globals.remove_item_in_hand.emit()
-	slot_manager.selected_slot = slots[current_key]
+	slot_manager.current_hotbar_slot_selected = slots[current_key]
 	
 	if slots[current_key].item != null:
 		selected_item = slots[current_key].item.duplicate()
@@ -196,11 +199,7 @@ func update(data) -> void:
 # Signal to update the slot when item changes
 func slot_updated(index: int, item_path: String, amount: int,parent:String,health:float,rot:int):
 	#print("hotbar slot updated ",index,item_path,amount,parent,health,rot)
-	if !Backend.playerdata.is_empty():
-		if Backend.playerdata.Inventory == null:
-			Globals.save.emit()
-		else:
-			Globals.save_slot.emit(index,item_path,amount,parent,health,rot)
+	pass
 	
 func check_spawn(item:ItemBase) -> bool:
 	for slot in slots:
@@ -211,7 +210,7 @@ func check_spawn(item:ItemBase) -> bool:
 				return true
 	return false
 
-func spawn_item_hotbar(item:ItemBase) -> void:
+func spawn_item_hotbar(item) -> void:
 	#print("spawn item hotbar ",item.unique_name)
 	for slot in slots:
 		if slot.item == null:
@@ -233,3 +232,13 @@ func hotbar_full() -> bool:
 			full = false
 			#return true
 	return full
+
+
+func _on_tree_exiting() -> void:
+	pass
+	## TODO fix saving data somewhere else other than backend
+	#var ui_data = save()
+	#print(ui_data)
+	#var data = JSON.stringify(ui_data)
+	#Backend._update({"client_id" : Backend.client_id , "change_name" : name,"change" : data})
+	#print("saved hotbar")

@@ -1,23 +1,20 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwpfgbu65smne"]
 
-[ext_resource type="Script" path="res://scripts/items/item_downloader.gd" id="1_4gl6m"]
+[ext_resource type="Script" path="res://scenes/other/idk.gd" id="1_k3amc"]
 [ext_resource type="PackedScene" uid="uid://dp3vw6ecck05s" path="res://scenes/ui/slot.tscn" id="2_h1pu5"]
 
 [node name="Node" type="Node"]
-script = ExtResource("1_4gl6m")
+script = ExtResource("1_k3amc")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Slot" parent="." instance=ExtResource("2_h1pu5")]
-visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="Button" type="Button" parent="."]
-visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 

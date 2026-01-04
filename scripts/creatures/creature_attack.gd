@@ -17,14 +17,14 @@ func Physics_Update(delta:float):
 	
 	var direction = creature.global_position.direction_to(target.global_position)
 
-	creature.velocity.x = lerpf(creature.velocity.x,direction.x * creature.creature_resource.speed,.5)
-	creature.velocity.z = lerpf(creature.velocity.z,direction.z * creature.creature_resource.speed,.5)
+	creature.velocity.x = lerpf(creature.velocity.x,direction.x * creature.creature_resource.speed,delta)
+	creature.velocity.z = lerpf(creature.velocity.z,direction.z * creature.creature_resource.speed,delta)
 	
 	creature.guide.global_position = target.global_position
 	
 	attack_raycast.look_at(target.global_position)
 	
-	var distance:float = creature.global_position.distance_to(target.global_position)
+	#var distance:float = creature.global_position.distance_to(target.global_position)
 	
 	if attack_raycast.is_colliding():
 		var coll = attack_raycast.get_collider()

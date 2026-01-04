@@ -63,11 +63,11 @@ func _on_pressed() -> void:
 					Globals.hotbar_slot_clicked.emit(self)
 					
 			
-			if item != null:
-				slot_manager.slot_clicked(self)
-			else:
-				if slot_manager.last_clicked_slot != null:
-					slot_manager.slot_clicked(self)
+			#if item != null:
+				#slot_manager.slot_clicked(self)
+			#else:
+				#if slot_manager.last_clicked_slot != null:
+					#slot_manager.slot_clicked(self)
 
 
 func update_slot() -> void:
@@ -192,3 +192,12 @@ func update_health():
 	
 	health_panel.show()
 	
+func visual_update(item_texture:Texture,amount:int,amount_visible:bool,background_visible:bool,health_visible:bool):
+	health_panel.visible = health_visible
+	amount_label.visible = amount_visible
+	background_texturerect.visible = background_visible
+	
+	image.texture = item_texture
+	
+	if amount_visible:
+		amount_label.text = str(amount)

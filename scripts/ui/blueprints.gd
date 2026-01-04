@@ -6,14 +6,6 @@ func _ready() -> void:
 	for slot in get_children():
 		slot.item_changed.connect(slot_changed)
 			
-	
-	if Backend.playerdata:
-		var blueprints = Backend.playerdata.Blueprints
-		if blueprints:
-			var data = JSON.parse_string(blueprints)
-			if data:
-				update_client(data)
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
@@ -45,12 +37,8 @@ func update_client(data):
 		slot.update_slot()
 
 func slot_changed(index:int,item_path:String,amount:int,parent:String,health:float,rot:int):
-		if Backend.playerdata.Blueprints == null:
-			Globals.save.emit()
-		else:
-			#print(index," ",item_path," ",amount," ",parent," ",health," ",rot)
-			Globals.save_slot.emit(index,item_path,amount,parent,health,rot)
-
+	pass
+	
 func save() -> Dictionary:
 	var save_data:Dictionary = {}
 	for slot in get_children():

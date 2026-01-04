@@ -21,7 +21,6 @@ func _on_confirmation_dialog_confirmed() -> void:
 	print("Deleting save...")
 	
 	#multiplayer.peer_disconnected.emit()
-	await Backend.delete_backend_save()
 	
 	#if OS.is_debug_build():
 	get_tree().quit()

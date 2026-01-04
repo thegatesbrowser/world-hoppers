@@ -14,7 +14,6 @@ var help:String = str("[color=","yellow","]","TOOLS","[/color]" ,"\n",
 @export var references : Dictionary = {
 	"Helper": "Helper",
 	"Globals": "Globals",
-	"Backend": "Backend",
 }
 
 @onready var console: RichTextLabel = $MarginContainer/MarginContainer/contents/console

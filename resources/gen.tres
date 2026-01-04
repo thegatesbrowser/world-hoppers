@@ -1,0 +1,7 @@
+[gd_resource type="VoxelGeneratorScript" load_steps=2 format=3 uid="uid://cjuidqx6woc06"]
+
+[ext_resource type="Script" path="res://scripts/world/gen.gd" id="1_p1p46"]
+
+[resource]
+script = ExtResource("1_p1p46")
+idk = false

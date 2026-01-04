@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://4ws5d6i4p8u6"]
+
+[ext_resource type="Script" path="res://addons/mod_packer/mod_packer_ui.gd" id="1_8tvey"]
+
+[node name="ModPacker" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8tvey")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Select Resources to Pack"
+
+[node name="ResourceTree" type="Tree" parent="."]
+custom_minimum_size = Vector2(1.45519e-11, 90)
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+hide_root = true
+select_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="ExportButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Export"
+
+[node name="Refresh" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Refresh"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

@@ -1,0 +1,33 @@
+# Blender 4.5.0 MTL File: 'None'
+# www.blender.org
+
+newmtl Material.003
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+Pr 1.000000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd C:/3.png
+map_d C:/3.png
+
+newmtl tree2
+Ks 0.140909 0.140909 0.140909
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd C:/tree2.low_Material_BaseColor.jpg
+map_Pr C:/tree2.low_Material_Roughness.jpg
+map_Bump -bm 1.000000 C:/tree2.low_Material_Normal.jpg

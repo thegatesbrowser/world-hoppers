@@ -10,6 +10,7 @@ var is_despawning:bool = false
 var dropped_items:bool = false
 var target:Vector3
 var path:PackedVector3Array
+var mover := VoxelBoxMover.new()
 
 @onready var player_view_distance: float = 128 * sqrt(2)
 
@@ -96,9 +97,10 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
-		if jump.is_colliding() and !stopped:
+		pass
+		#if jump.is_colliding() and !stopped:
 			#print("jump")
-			velocity.y += 10
+			#velocity.y += 10
 
 	#Path()
 	
@@ -110,6 +112,7 @@ func _physics_process(delta: float) -> void:
 	
 	rotation_root.rotation.y = lerp_angle(rotation_root.rotation.y,atan2(dir.x,dir.y), delta / 0.2)
 	
+	velocity = mover.get_motion(global_position,velocity,AABB(Vector3.ZERO,Vector3(1,1,1)),Helper.terrian)
 	move_and_slide()
 	
 	set_sync_properties()

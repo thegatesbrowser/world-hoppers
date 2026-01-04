@@ -20,19 +20,19 @@ func _ready() -> void:
 	for slot in slots:
 		slot.item_changed.connect(change)
 
-	if is_in_group("Main Inventory"):
-		
-		if Backend.playerdata:
-			if Backend.playerdata.Inventory:
-				# If the player has an inventory, load it
-				var data = JSON.parse_string(Backend.playerdata.Inventory)
-				if data:
-					update_client(data)
-		
 	Globals.spawn_item_inventory.connect(spawn_item)
 	Globals.remove_item.connect(remove_item)
 	Globals.check_amount_of_item.connect(check_amount_of_item)
 	
+	
+	## TODO fix saving inventory data somewhere else other than backend
+	#if is_in_group("Main Inventory"):
+		#print("check ",Backend.playerdata.Inventory)
+		#if Backend.playerdata.Inventory != null:
+			#var json := JSON.new()
+			#var data = json.parse_string(Backend.playerdata.Inventory)
+			#update(data)
+		
 	
 func _process(_delta: float) -> void:
 	
@@ -120,9 +120,10 @@ func remove_item(unique_name:StringName,amount:int) -> void:
 						slot.amount -= 1
 					slot.update_slot()
 					var index = inventory.find(unique_name)
-					inventory.remove_at(index)
-					check_if_full()
-					break
+					if index != -1:
+						inventory.remove_at(index)
+						check_if_full()
+						break
 				elif unique_name in slot.item.unique_name:
 					if slot.amount == 1:
 						slot.item = null
@@ -130,9 +131,10 @@ func remove_item(unique_name:StringName,amount:int) -> void:
 						slot.amount -= 1
 					slot.update_slot()
 					var index = inventory.find(unique_name)
-					inventory.remove_at(index)
-					check_if_full()
-					break
+					if index != -1:
+						inventory.remove_at(index)
+						check_if_full()
+						break
 
 
 func check_if_full() -> void:
@@ -159,14 +161,7 @@ func change(index: int, item_path: String, amount: int,parent:String,health:floa
 		var _save = save()
 		var data = JSON.stringify(_save)
 		if metadata:
-			Globals.sync_add_metadata.emit(id,data)
-		else:
-			Globals.update_registered_ui.emit(id,_save)
-	else:
-		if Backend.playerdata.Inventory == null:
-			Globals.save.emit()
-		else:
-			Globals.save_slot.emit(index,item_path,amount,parent,health,rot)
+			Helper.terrian.set_voxel_meta(id,data)
 			
 func open_with_meta(data):
 	show()
@@ -189,16 +184,17 @@ func open_with_meta(data):
 		slot.update_slot()
 			
 
-	
-@rpc("any_peer","call_local")
 func add_meta_data(data):
-	
+	print(data)
+	#Helper.terrian.set_voxel_meta.rpc_id(1,id)
 	#print("data",data)
-	Helper.terrian.get_voxel_tool().set_voxel_metadata(id,data)
+	#Helper.terrian.get_vo
+	#Helper.terrian.get_voxel_tool().set_voxel_metadata(id,data)
 	#print(" change",TerrainHelper.get_terrain_tool().get_voxel_tool().get_voxel_metadata(id))
 
 ## updates the ui with the backend playerdata
-func update_client(data):
+func update(data):
+	print(data)
 	if data == null: return
 
 	for i in data:
@@ -208,14 +204,7 @@ func update_client(data):
 		var item_file:String = data[i].item_path.get_file()
 		
 		if item_file != "":
-			var user_path:String = "user://items/"+item_file
-			var normal_path:String = data[i].item_path
-			
-			if FileAccess.file_exists(user_path):
-				slot.item = load(user_path)
-			else:
-				slot.item = load(data[i].item_path)
-				
+			slot.item = load(data[i].item_path)
 		else:
 			slot.item = null
 			
@@ -260,3 +249,13 @@ func save() -> Dictionary:
 				"rot" : slot.rot,
 				}
 	return save_data
+
+
+func _on_tree_exiting() -> void:
+	pass
+	## TODO fix saving data somewhere else other than backend
+	#var ui_data = save()
+	#print(ui_data)
+	#var data = JSON.stringify(ui_data)
+	#Backend._update({"client_id" : Backend.client_id , "change_name" : name,"change" : data})
+	#print("saved inventory")

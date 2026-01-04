@@ -1,21 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://cg2nx287bqtet"]
+[gd_scene load_steps=12 format=3 uid="uid://cg2nx287bqtet"]
 
-[ext_resource type="VoxelGeneratorMultipassCB" uid="uid://bh1rbxjykhems" path="res://resources/multipass_gen.tres" id="1_ykh1m"]
-[ext_resource type="VoxelBlockyTypeLibrary" uid="uid://c7aemhrd4kvsy" path="res://resources/voxel_block_library.tres" id="2_edc4x"]
-[ext_resource type="Script" path="res://addons/freecam_3D/freecam.gd" id="3_7i0kk"]
 [ext_resource type="Shader" path="res://scripts/shaders/sky.gdshader" id="4_h7nv0"]
-
-[sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_4ilwg"]
-library = ExtResource("2_edc4x")
-occlusion_darkness = 1.0
-shadow_occluder_negative_x = true
-shadow_occluder_positive_x = true
-shadow_occluder_negative_y = true
-shadow_occluder_positive_y = true
-shadow_occluder_negative_z = true
-shadow_occluder_positive_z = true
-
-[sub_resource type="VoxelFormat" id="VoxelFormat_rhear"]
+[ext_resource type="PackedScene" uid="uid://hcnoiul8te6b" path="res://freecam_3d.tscn" id="5_tqdm5"]
 
 [sub_resource type="Gradient" id="Gradient_pp0c6"]
 
@@ -104,20 +90,6 @@ adjustment_saturation = 1.14
 offset_right = 165.0
 offset_bottom = 116.0
 
-[node name="VoxelTerrain" type="VoxelTerrain" parent="."]
-mesh_block_size = 32
-use_gpu_generation = true
-generator = ExtResource("1_ykh1m")
-mesher = SubResource("VoxelMesherBlocky_4ilwg")
-format = SubResource("VoxelFormat_rhear")
-cast_shadow = 2
-
-[node name="Freecam3D" type="Camera3D" parent="."]
-script = ExtResource("3_7i0kk")
-
-[node name="VoxelViewer" type="VoxelViewer" parent="Freecam3D"]
-requires_collisions = false
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." groups=["Enviroment"]]
 environment = SubResource("Environment_cafrk")
 
@@ -136,3 +108,5 @@ shadow_enabled = true
 directional_shadow_max_distance = 30.0
 
 [node name="Time" type="Node" parent="WorldEnvironment" groups=["MISC_SAVE", "TimeManager"]]
+
+[node name="Freecam3D" parent="." instance=ExtResource("5_tqdm5")]

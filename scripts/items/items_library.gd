@@ -10,7 +10,7 @@ func init_items(print:bool = false):
 	for item in items_array:
 		items[item.unique_name] = item
 		types.append(item.unique_name)
-	print("ItemLIB ",items)
+	#print("ItemLIB ",items)
 
 func get_item(unique_name: StringName) -> ItemBase:
 	if not items.has(unique_name):

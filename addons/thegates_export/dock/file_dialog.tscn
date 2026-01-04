@@ -1,9 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://csthn8tsi1xak"]
+[gd_scene load_steps=3 format=3 uid="uid://csthn8tsi1xak"]
 
-[ext_resource type="Script" path="res://addons/thegates_export/dock/file_dialog.gd" id="1_nv1wy"]
+[ext_resource type="Script" uid="uid://qmrvl2811pur" path="res://addons/thegates_export/dock/file_dialog.gd" id="1_nv1wy"]
+
+[sub_resource type="DPITexture" id="DPITexture_e8n44"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-4a1 1 0 0 1-1-1V3a1 1 0 0 0-1-1z\"/></svg>
+"
+saturation = 1.8
+color_map = {
+Color(1, 0.37254903, 0.37254903, 1): Color(1, 0.47, 0.42, 1),
+Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
+Color(1, 0.8666667, 0.39607844, 1): Color(1, 0.87, 0.4, 1)
+}
 
 [node name="FileDialog" type="Button"]
-text = "Pick"
+theme_override_icons/icon = SubResource("DPITexture_e8n44")
 script = ExtResource("1_nv1wy")
 minsize = Vector2i(1000, 600)
 

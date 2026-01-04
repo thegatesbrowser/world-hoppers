@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://scripts/world/multipass_gen.gd" id="1_tux7n"]
 
 [resource]
-pass_count = 3
+pass_count = 2
 pass_1_extent = 1
-pass_2_extent = 1
 script = ExtResource("1_tux7n")

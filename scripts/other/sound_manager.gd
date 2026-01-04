@@ -9,6 +9,7 @@ func _ready() -> void:
 	item_lib.init_items()
 
 ## the node has to the same as the type else wont work
+@rpc("any_peer","call_local","unreliable")
 func play_sound(type: StringName, pos: Vector3,sound_type:String = "break") -> void:
 	if not item_lib.items.has(type): return
 		

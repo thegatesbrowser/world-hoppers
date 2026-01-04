@@ -27,7 +27,7 @@ func Exit():
 	
 func Physics_Update(delta:float):
 	
-	var player = get_closest_player()
+	player = get_closest_player()
 	
 	if !player: return
 	
@@ -51,8 +51,8 @@ func Physics_Update(delta:float):
 
 			var direction = creature.global_position.direction_to(point)
 
-			creature.velocity.x = lerpf(creature.velocity.x,direction.x * creature.creature_resource.speed,.5)
-			creature.velocity.z = lerpf(creature.velocity.z,direction.z * creature.creature_resource.speed,.5)
+			creature.velocity.x = lerpf(creature.velocity.x,direction.x * creature.creature_resource.speed,delta)
+			creature.velocity.z = lerpf(creature.velocity.z,direction.z * creature.creature_resource.speed,delta)
 
 			creature.guide.global_position = point
 
@@ -91,7 +91,7 @@ func get_closest_player():
 
 func update_nav_path():
 	nav_path.clear()
-	var player = get_closest_player()
+	player = get_closest_player()
 	var current_pos = creature.global_position
 	
 	if player:

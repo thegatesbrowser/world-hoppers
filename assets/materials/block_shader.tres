@@ -88,8 +88,8 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_bnn5h")
 shader_parameter/character_position = null
-shader_parameter/fade_start = 90.0
-shader_parameter/fade_end = 100.0
+shader_parameter/fade_start = 70.0
+shader_parameter/fade_end = 90.0
 shader_parameter/albedo = Color(1, 1, 1, 0)
 shader_parameter/dither_grain = 1.0
 shader_parameter/distance_fade_min = 10.0

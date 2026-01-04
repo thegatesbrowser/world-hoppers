@@ -21,10 +21,8 @@ config/icon="res://assets/textures/items/Oak Log.png"
 
 Helper="*res://scripts/common/helper.gd"
 Globals="*res://scripts/common/globals.gd"
-Backend="*res://scenes/backend.tscn"
 GlobalAnimation="*res://scripts/common/animation.gd"
 DevConsole="*res://scenes/ui/dev_console.tscn"
-ItemDownloader="*res://scenes/other/item_downloader.tscn"
 SettingsManager="*res://scripts/common/SettingsManager.gd"
 Nav="*res://scripts/common/nav.gd"
 MouseMode="*res://scripts/common/mouse_mode.gd"
@@ -46,13 +44,9 @@ window/stretch/aspect="expand"
 window/vsync/vsync_mode=0
 window/canvas_textures/default_texture_filter=1
 
-[editor]
-
-run/main_run_args="client"
-
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/CameraShake3D/plugin.cfg", "res://addons/fps_counter/plugin.cfg", "res://addons/freecam_3D/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/setup_multiple_instances/plugin.cfg", "res://addons/thegates_export/plugin.cfg")
+enabled=PackedStringArray("res://addons/CameraShake3D/plugin.cfg", "res://addons/fps_counter/plugin.cfg", "res://addons/freecam_3D/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/mod_packer/plugin.cfg", "res://addons/setup_multiple_instances/plugin.cfg", "res://addons/thegates_export/plugin.cfg")
 
 [file_customization]
 
@@ -72,7 +66,6 @@ VoxelTerrain=""
 PlayerSpawner=""
 UISyncer="saves the ui data"
 Hotbar=""
-PlayersUI="saves the players ui"
 SoundManager=""
 Game=""
 NPCS=""
@@ -84,6 +77,8 @@ Blueprints=""
 LightContainer="hold block lights"
 SoundContainer=""
 MISC_SAVE="save event group"
+ui_savable="saves the players ui"
+Slot="a slot for a item"
 
 [input]
 

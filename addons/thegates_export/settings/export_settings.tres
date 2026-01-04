@@ -1,10 +1,15 @@
-[gd_resource type="Resource" script_class="TGExportSettings" load_steps=2 format=3 uid="uid://bw2na25q5mdh6"]
+[gd_resource type="Resource" script_class="TGExportSettings" load_steps=2 format=3 uid="uid://gh3me1dmrdp7"]
 
 [ext_resource type="Script" path="res://addons/thegates_export/settings/export_settings.gd" id="1_4i6s3"]
 
 [resource]
 script = ExtResource("1_4i6s3")
-title = "Minecraft"
-description = "Our open-source minecraft clone (WIP) [p][/p] Originally by SDG Games"
-image = "res://textures/material_1_albedo2.png"
-export_folder = "C:/cooper/godot projects/exports/minecraft"
+title = "world-hoppers"
+description = " a game"
+icon = "res://assets/textures/items/Leaf.png"
+image = "res://assets/textures/Screenshot (881).png"
+discoverable = false
+advanced_settings = true
+export_locally = true
+tos_accepted = true
+fresh_install = false

@@ -15,6 +15,9 @@ var fileDialog : EditorFileDialog
 
 
 func _ready() -> void:
+	var folder_icon = EditorInterface.get_base_control().get_theme_icon(&"FolderBrowse", &"EditorIcons")
+	add_theme_icon_override("icon", folder_icon)
+	
 	fileDialog = EditorFileDialog.new()
 	fileDialog.file_mode = file_mode
 	fileDialog.access = access

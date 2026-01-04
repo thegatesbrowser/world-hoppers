@@ -132,6 +132,7 @@ layout_mode = 2
 
 [node name="Update Tick" type="Timer" parent="."]
 
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Sort" to="." method="_on_sort_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/AddRandomItem" to="." method="_on_add_random_item_pressed"]
 [connection signal="timeout" from="Update Tick" to="." method="_on_update_tick_timeout"]

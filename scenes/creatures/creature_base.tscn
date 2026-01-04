@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://buts6uhmr7s2d"]
+[gd_scene load_steps=18 format=3 uid="uid://buts6uhmr7s2d"]
 
 [ext_resource type="Script" path="res://scripts/creatures/creature_base.gd" id="1_qm1no"]
 [ext_resource type="PackedScene" uid="uid://lapvsp2lnu5y" path="res://assets/models/creatures/fox.tscn" id="2_c208a"]
@@ -28,26 +28,6 @@ random_volume_offset_db = 3.27
 streams_count = 2
 stream_0/stream = ExtResource("3_yg616")
 stream_1/stream = ExtResource("4_4tu1u")
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_oq0u8"]
-properties/0/path = NodePath(".:_position")
-properties/0/spawn = false
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:_velocity")
-properties/1/spawn = false
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:_direction")
-properties/2/spawn = false
-properties/2/replication_mode = 1
-properties/3/path = NodePath(".:_rotation")
-properties/3/spawn = false
-properties/3/replication_mode = 1
-properties/4/path = NodePath(".:position")
-properties/4/spawn = true
-properties/4/replication_mode = 1
-properties/5/path = NodePath("RotationRoot:rotation")
-properties/5/spawn = true
-properties/5/replication_mode = 1
 
 [node name="AI Base" type="CharacterBody3D" groups=["NPCS"]]
 collision_mask = 3
@@ -116,9 +96,6 @@ z_radius = 6
 
 [node name="Gen Waiter" parent="." instance=ExtResource("6_corsq")]
 check_size = Vector3(2, 2, 2)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_oq0u8")
 
 [node name="StateManager" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_npuiu")

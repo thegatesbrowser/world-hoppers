@@ -101,7 +101,7 @@ func _generate_pass(voxel_tool: VoxelToolMultipassGenerator, pass_index: int):
 		for z in range(min_pos.z, max_pos.z):
 			for x in range(min_pos.x, max_pos.x):
 				var temp:int = get_temp(x, z)
-				var biome_name 
+				var biome_name:String
 
 				if last_biome == "":
 					biome_name = get_biome(temp)
@@ -225,7 +225,7 @@ func try_plant_tree(voxel_tool: VoxelToolMultipassGenerator, tree_id:int):
 	
 	if voxel_tool.get_voxel(tree_pos - Vector3i(0,1,0)) != voxels.get_model_index_default("grass"): return
 	
-	var biome_name = get_biome(get_temp(tree_pos.x,tree_pos.z))
+	var biome_name:String = get_biome(get_temp(tree_pos.x,tree_pos.z))
 	
 	var trees:Dictionary = biomes[biome_name].trees
 	
@@ -299,7 +299,7 @@ func try_place_structure(voxel_tool: VoxelToolMultipassGenerator, rng: RandomNum
 		#print("Ground not found")
 		return
 		
-	var biome_name = get_biome(get_temp(tree_pos.x,tree_pos.z))
+	var biome_name:String = get_biome(get_temp(tree_pos.x,tree_pos.z))
 	
 	var structures:Dictionary = biomes[biome_name]._custom_structures
 	

@@ -14,7 +14,6 @@ func export(settings: TGExportSettings) -> void:
 
 func is_valid(settings: TGExportSettings) -> bool:
 	if settings.image.is_empty():
-		printerr("Thumbnail image is not chosen")
 		return false
 	
 	if not FileAccess.file_exists(settings.image):

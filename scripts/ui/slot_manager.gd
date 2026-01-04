@@ -1,5 +1,5 @@
 extends Node
-class_name SlotManager
+#class_name SlotManager
 
 var hotbar_full:bool = false
 var last_clicked_slot:Slot
@@ -69,7 +69,10 @@ func slot_clicked(slot:Slot):
 		last_clicked_slot = null
 			
 				
-func add_item_to_hotbar_or_inventory(item:ItemBase):
+func add_item_to_hotbar_or_inventory(item:ItemBase,item_path:String = ""):
+	if item == null and item_path != "":
+		item = load(item_path)
+		
 	if !Helper.hotbar.check_spawn(item): Globals.spawn_item_inventory.emit(item)
 	else:
 		Helper.hotbar.spawn_item_hotbar(item)

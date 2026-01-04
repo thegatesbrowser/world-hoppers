@@ -71,27 +71,29 @@ var check_terrian_timer:Timer
 @export var hunger_step: float = 0.1
 
 @onready var hit_shader:ColorRect = $"hit shader"
-@onready var rotation_root: Node3D = $RotationRoot
-@onready var ANI: AnimationPlayer = $RotationRoot/Model/AnimationPlayer
+@onready var pivot: Node3D = $Pivot
+@onready var ANI: AnimationPlayer = $Pivot/Model/AnimationPlayer
 @onready var hit_sfx: AudioStreamPlayer3D = $hit
 @onready var ping_label: Label = $Ping
 @onready var pos_label: Label = $Pos
 @onready var collision: CollisionShape3D = $CollisionShape3D
 @onready var floor_ray: RayCast3D = $floor
-@onready var camera_shake: CameraShake3DNode = $RotationRoot/Head/CameraShake3DNode
-@onready var terrain_interation:TerrainInteraction = $Hands/TerrainInteraction
-@onready var drop_node: Node3D = $RotationRoot/Head/Camera3D/Drop_node
-@onready var camera = $RotationRoot/Head/Camera3D
-@onready var ray = $RotationRoot/Head/Camera3D/RayCast3D
-@onready var auto_jump: RayCast3D = $RotationRoot/AutoJump
-@onready var can_auto_jump_check: RayCast3D = $RotationRoot/AutoJump2
-@onready var _synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
+@onready var camera_shake: CameraShake3DNode = $Pivot/Head/CameraShake3DNode
+@onready var drop_node: Node3D = $Pivot/Head/Camera3D/Drop_node
+@onready var camera = $Pivot/Head/Camera3D
+@onready var ray = $Pivot/Head/Camera3D/RayCast3D
+@onready var auto_jump: RayCast3D = $Pivot/AutoJump
+@onready var can_auto_jump_check: RayCast3D = $Pivot/AutoJump2
 @onready var _move_direction := Vector3.ZERO
-@onready var item_holder = $RotationRoot/Head/Camera3D/Sway/item_holder
-@onready var third_person_model: Node3D = $"RotationRoot/Model" # TP
+@onready var item_holder = $Pivot/Head/Camera3D/Sway/item_holder
+@onready var third_person_model: Node3D = $"Pivot/Model" # TP
 
 
 func _ready() -> void:
+	if is_multiplayer_authority():
+		camera.make_current()
+		third_person_model.hide()
+	
 	Globals.add_item_to_hand.connect(add_item_to_hand)
 	Globals.remove_item_in_hand.connect(remove_item_in_hand)
 	Globals.hunger_points_gained.connect(hunger_points_gained)
@@ -99,33 +101,13 @@ func _ready() -> void:
 	
 	spawn_position = start_position
 	
-	if !Backend.playerdata.is_empty():
-		if Backend.playerdata.hunger == null:
-			hunger = base_hunger
-		else:
-			hunger = Backend.playerdata.hunger
+	hunger = base_hunger
+	health = max_health
 
-		if Backend.playerdata.hunger == null:
-			health = max_health
-		else:
-			health = Backend.playerdata.health
-	else:
-		hunger = base_hunger
-		health = max_health
-
-	if not is_multiplayer_authority():
-		_synchronizer.delta_synchronized.connect(on_synchronized)
-		_synchronizer.synchronized.connect(on_synchronized)
-	else:
-		camera.current = true
-		
 	_update_tp_fp_visibility()
 	_add_keybindings()
 	
 
-func _exit_tree():
-	save_data()
-	
 func _update_tp_fp_visibility() -> void:
 	if is_multiplayer_authority():
 		item_holder.show()
@@ -141,7 +123,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE: return
 	
 	if event is InputEventMouseMotion:
-		rotation_root.rotate_y(-event.relative.x * SENSITIVITY)
+		pivot.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
@@ -165,15 +147,14 @@ func _process(_delta: float) -> void:
 	update_shaders()
 	hunger_update(_delta)
 
-	
 	_camera_transform = camera.global_transform
 		
 	pos_label.text = str("pos   ", global_position)
 	camera.far = Globals.view_range
 	
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority() and Connection.is_peer_connected:
-		interpolate_client(delta); return
+	if not is_multiplayer_authority():
+		return
 
 	if !Globals.paused and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
 		mine_and_place(delta)
@@ -226,7 +207,7 @@ func _physics_process(delta: float) -> void:
 func set_sync_properties() -> void:
 	_position = position
 	_velocity = velocity
-	_rotation = rotation_root.rotation
+	_rotation = pivot.rotation
 	_direction = _move_direction
 
 func save_data() -> void:
@@ -238,49 +219,6 @@ func save_data() -> void:
 	#Stats
 	Globals.send_to_server.emit({"client_id": Globals.client_id,"change_name": "health", "change": health})
 	Globals.send_to_server.emit({"client_id": Globals.client_id,"change_name": "hunger", "change": hunger})
-	
-func on_synchronized() -> void:
-	velocity = _velocity
-	position_before_sync = position
-	
-	var sync_time_ms = Time.get_ticks_msec()
-	sync_delta = clampf(float(sync_time_ms - last_sync_time_ms) / 1000, 0, sync_delta_max)
-	last_sync_time_ms = sync_time_ms
-	
-	if not start_interpolate:
-		start_interpolate = true
-		position = _position
-		rotation_root.rotation = _rotation
-	
-	if Connection.is_server():
-		position = _position
-
-func interpolate_client(delta: float) -> void:
-	if not start_interpolate: return
-	
-	# Interpolate rotation
-	rotation_root.rotation = _rotation.slerp(rotation_root.rotation, delta)
-	
-	if _direction:
-		# Don't interpolate to avoid small jitter when stopping
-		if (_position - position).length() > 1.0 and _velocity.is_zero_approx():
-			position = _position # Fix misplacement
-		
-		if ANI.current_animation != "waling": ANI.play("waling")
-	else:
-		# Interpolate between position_before_sync and _position
-		# and add to ongoing movement to compensate misplacement
-		var t = 1.0 if is_zero_approx(sync_delta) else delta / sync_delta
-		sync_delta = clampf(sync_delta - delta, 0, sync_delta_max)
-		
-		var less_misplacement = position_before_sync.move_toward(_position, t)
-		position += less_misplacement - position_before_sync
-		position_before_sync = less_misplacement
-		
-		if ANI.current_animation != "idle": ANI.play("idle")
-	
-	velocity.y -= gravity * delta
-	move_and_slide()
 
 func toggle_flying() -> void:
 	is_flying = !is_flying
@@ -321,7 +259,6 @@ func remove_item_in_hand() -> void:
 	for i in item_holder.get_children():
 		i.queue_free()
 	
-@rpc("any_peer","call_local")
 func hit(damage: int = 1) -> void:
 	
 	#cant get damage that is neg
@@ -360,7 +297,6 @@ func hunger_update(_delta: float) -> void:
 				
 		if hunger <= 0:
 			#print("dying of hunger")
-			hit.rpc_id(get_multiplayer_authority(),1)
 			health_updated.emit(health)
 			
 		if _move_direction:
@@ -377,16 +313,13 @@ func death() -> void:
 	health = max_health
 	hunger = base_hunger
 	
-	drop_items(global_position)
-	
 	camera_shake._shake()
 	
 	global_position = spawn_position
-	respawn.rpc(spawn_position)
+	respawn(spawn_position)
 	print("death")
 
 
-@rpc("any_peer", "call_local", "reliable")
 func respawn(pos: Vector3) -> void:
 	print("respawn")
 	global_position = pos
@@ -403,19 +336,6 @@ func respawn(pos: Vector3) -> void:
 		check_terrian_timer.start()
 		check_terrian_timer.timeout.connect(_check_terrian_timer)
 		
-func drop_items(drop_position:Vector3):
-	var object_spawner:MultiplayerSpawner
-	
-	var inventory_items = Helper.player_inventory.get_all()
-	var hotbar_items = Helper.hotbar.get_all()
-	
-	for item_name in hotbar_items:
-		Helper.hotbar.remove_item(item_name,hotbar_items[item_name].amount)
-		Helper.object_spawner.spawn_object.rpc_id(1,[1,global_position,"res://scenes/items/dropped_item.tscn",hotbar_items[item_name].item_path,hotbar_items[item_name].amount])
-	
-	for item_name in inventory_items:
-		Helper.player_inventory.remove_item(item_name,inventory_items[item_name].amount)
-		Helper.object_spawner.spawn_object.rpc_id(1,[1,global_position,"res://scenes/items/dropped_item.tscn",inventory_items[item_name].item_path,inventory_items[item_name].amount])
 
 func hunger_points_gained(amount: int) -> void:
 	if hunger + amount < base_hunger:
@@ -440,7 +360,7 @@ func normal_movement(delta:float):
 				crouching = false
 			
 	var input_dir = Input.get_vector("Left", "Right", "Forward", "Backward")
-	_move_direction = (rotation_root.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	_move_direction = (pivot.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if is_on_floor():
 		if _move_direction:
 			if ANI.current_animation != "waling":
@@ -477,7 +397,7 @@ func flying_movement(delta:float):
 	if Input.is_action_pressed("__debug_camera_up"): 		dir.y += 1
 	if Input.is_action_pressed("__debug_camera_down"): 		dir.y -= 1
 
-	_move_direction = (rotation_root.transform.basis * Vector3(dir.x, dir.y, dir.z)).normalized()
+	_move_direction = (pivot.transform.basis * Vector3(dir.x, dir.y, dir.z)).normalized()
 	
 	velocity = lerp(velocity, _move_direction * SPRINT_SPEED, 0.1)
 		
@@ -503,32 +423,6 @@ func mine_and_place(delta:float):
 		
 		if ray.is_colliding():
 			var coll = ray.get_collider()
-			
-			if coll.is_in_group("Hitbox"):
-				var parent = coll.get_parent()
-				if parent is HealthComponent:
-					if hotbar_item is ItemTool:
-						print("attack ",parent.owner.name)
-						parent.rpc_id(parent.get_multiplayer_authority(),"hit",hotbar_item.damage)
-					else:
-						print("attack ",parent.owner.name)
-						parent.rpc_id(parent.get_multiplayer_authority(),"hit",1)
-	
-	if Input.is_action_just_released("Mine"):
-		if hotbar_item is ItemTool:
-			if hotbar_item.projectable:
-				if hotbar_item.throws_self:
-					var current_slot = hotbar.get_current() as Slot
-					current_slot.amount -= 1
-					Helper.object_spawner.spawn_object.rpc_id(1,[get_multiplayer_authority(),_camera_transform,"res://scenes/items/weapons/projectile.tscn",hotbar_item.projectile_resource.get_path(),true])
-				else:
-					var find_item = hotbar_item.projectile_item
-					var item_slot = Globals.find_item(find_item)
-					if item_slot != null:
-						if item_slot.amount - hotbar_item.amount_needed:
-							if item_slot.amount >= 0:
-								item_slot.amount -= hotbar_item.amount_needed
-								Helper.object_spawner.spawn_object.rpc_id(1,[get_multiplayer_authority(),_camera_transform,"res://scenes/items/weapons/projectile.tscn",hotbar_item.projectile_resource.get_path(),true])
 					
 func _speed_mode():
 	speed_mode = !speed_mode
@@ -564,3 +458,7 @@ func _add_key_input_action(name: String, key: Key) -> void:
 	
 	InputMap.add_action(name)
 	InputMap.action_add_event(name, ev)
+
+
+func _on_tree_exiting() -> void:
+	save_data()

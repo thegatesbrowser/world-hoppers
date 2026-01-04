@@ -16,17 +16,18 @@ const light_block = preload("res://scenes/other/block_light.tscn")
 @export var UI_syncer:Node
 @export var Voxels:VoxelBlockyTypeLibrary 
 
+var player_ui:Array
+
 func _ready() -> void:
 	#save_item(load("res://resources/items/stone.tres"))
 	#Globals.fnished_loading.connect(load_creatures)
-	Globals.save.connect(save_player_ui)
 	Globals.save_slot.connect(save_slot)
 	
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	Terrain = get_tree().get_first_node_in_group("VoxelTerrain")
 
-
+	
 func _on_peer_connected(_peer_id: int) -> void:
 	if multiplayer.is_server():
 		if multiplayer.get_peers().size() == 1:
@@ -45,14 +46,7 @@ func _on_peer_disconnected(_peer_id: int) -> void:
 		print("All peers disconnected, saving")
 		save()
 
-
-func exit_tree() -> void:
-	print("Closing game, saving modified blocks")
-	save()
-
-
 func save() -> void:
-	
 	if multiplayer.is_server():
 		misc_save()
 		save_creatures()
@@ -62,16 +56,9 @@ func save() -> void:
 		Terrain.save_modified_blocks()
 
 
-func save_player_ui() -> void:
-	for ui in get_tree().get_nodes_in_group("PlayersUI"):
-		if ui.has_method("save"):
-			var ui_data = ui.call("save")
-			print(ui_data)
-			var data = JSON.stringify(ui_data)
-			Globals.send_to_server.emit({"client_id" : Backend.client_id , "change_name" : ui.name,"change" : data})
-
 func save_slot(index: int, item_path: String, amount: int,parent: String,health: int, rot:int) -> void:
-	Globals.send_slot_data.emit({"index":index,"item_path":item_path,"amount":amount,"parent":parent,"health":health,"rot":rot,"client_id":Backend.client_id})
+	pass
+	#Globals.send_slot_data.emit({"index":index,"item_path":item_path,"amount":amount,"parent":parent,"health":health,"rot":rot,"client_id":Backend.client_id})
 
 func misc_save():
 	var save_file

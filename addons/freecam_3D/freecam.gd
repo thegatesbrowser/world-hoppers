@@ -28,6 +28,8 @@ const MIN_SPEED := 0.1
 const ACCELERATION := 0.1
 const MOUSE_SENSITIVITY := 0.002
 
+var postion:Vector3
+
 ## Whether or not the camera can move.
 var movement_active := false:
 	set(val):
@@ -65,9 +67,12 @@ func _ready() -> void:
 	_add_keybindings()
 
 
+
 func _process(delta: float) -> void:
 	var shader:ShaderMaterial = load("res://assets/materials/block_shader.tres")
 	shader.set_shader_parameter("character_position", global_position)
+	
+	postion = pivot.position
 	
 	if Input.is_action_just_released("__debug_camera_toggle"):
 		movement_active = not movement_active
@@ -144,3 +149,7 @@ func _add_key_input_action(name: String, key: Key) -> void:
 	
 	InputMap.add_action(name)
 	InputMap.action_add_event(name, ev)
+	
+@rpc("any_peer","call_local")
+func idk():
+	pivot.global_position = postion

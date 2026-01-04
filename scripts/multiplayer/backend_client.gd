@@ -53,7 +53,6 @@ func ask_for_player_data(cid):
 
 func identify():
 	var cid:String
-	print("server? ",Connection.is_server() )
 	if Connection.is_server():
 		cid = "server"
 		var data := {"client_id": cid}
@@ -110,7 +109,6 @@ func _process(_delta):
 				##GameManager.Players[data.id] = data.player
 				#createPeer(data.id)
 			if data.message == Util.Message.portal:
-				print(data)
 				set_portal_url.rpc(data.x,data.y,data.z)
 			
 			if data.message == Util.Message.playerinfo:

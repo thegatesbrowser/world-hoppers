@@ -5,10 +5,10 @@ extends Control
 @export var loading_bar: ProgressBar
 
 func _ready() -> void:
-	#itemLIB.init_items()
-	#ItemDownloader.completed_download.connect(construct_voxelLib)
-	Backend.playerdata_updated.connect(start_scene)
+	#Backend.playerdata_updated.connect(start_scene) # starts game when login is fnished
+	start_scene() # autostart because singleplayer
 
+	
 func _process(delta):
 	if loading_bar.value < 100:
 		loading_bar.value += delta * 10
@@ -18,9 +18,7 @@ func _process(delta):
 func start_scene() -> void:
 	get_tree().call_deferred("change_scene_to_packed", scene)
 	pass
-	
-func download_items():
-	ItemDownloader.fetch_all_jsons()
+
 	
 func construct_voxelLib():
 	var voxel_lib:VoxelBlockyTypeLibrary = load("res://resources/voxel_block_library.tres")
