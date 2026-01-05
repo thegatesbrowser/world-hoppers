@@ -12,11 +12,11 @@ output_amount = 1
 items_needed = {
 1: {
 "amount": 8,
-"name": "wood",
+"name": "planks",
 "texture": ExtResource("1_gaw1a")
 }
 }
-unique_name = &"chest"
+unique_name = &"chest_blueprint"
 texture = ExtResource("4_6qyfy")
 max_stack = 64
 rotatable = false

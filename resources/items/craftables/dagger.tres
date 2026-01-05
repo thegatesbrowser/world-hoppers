@@ -22,7 +22,7 @@ items_needed = {
 "texture": ExtResource("2_j7ibr")
 }
 }
-unique_name = &"dagger"
+unique_name = &"dagger_blueprint"
 texture = ExtResource("5_7tfsq")
 max_stack = 64
 rotatable = false

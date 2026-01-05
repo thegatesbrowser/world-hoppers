@@ -2,19 +2,18 @@
 
 [ext_resource type="Script" path="res://scripts/multiplayer/resolution_changer.gd" id="1_5pkvj"]
 [ext_resource type="Script" path="res://scripts/other/sound_manager.gd" id="6_x8auu"]
+[ext_resource type="Script" path="res://scripts/ui/slot_manager.gd" id="7_bpn8a"]
 [ext_resource type="PackedScene" uid="uid://bbet1xkqsp2wo" path="res://scenes/player/player.tscn" id="7_n7355"]
-[ext_resource type="Script" path="res://scenes/slot_manager v2.gd" id="7_oh737"]
 [ext_resource type="Shader" path="res://scripts/shaders/outline_UI.gdshader" id="8_8cini"]
 [ext_resource type="Texture2D" uid="uid://dudcasy8dleom" path="res://assets/textures/items/stone_sword.png" id="9_0irpw"]
 [ext_resource type="Script" path="res://scripts/ui/ui_syncer.gd" id="9_2m2hc"]
 [ext_resource type="Script" path="res://scripts/common/saver.gd" id="10_3vt6t"]
 [ext_resource type="Texture2D" uid="uid://bn5we2hlukmst" path="res://assets/textures/icons/construction_1000dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png" id="10_jbeoc"]
-[ext_resource type="Script" path="res://scripts/player/player_spawner_2.gd" id="12_58lxv"]
+[ext_resource type="Script" path="res://scripts/player/player_spawner_2.gd" id="12_jm65m"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="13_k4nmq"]
 [ext_resource type="VoxelGeneratorMultipassCB" uid="uid://bh1rbxjykhems" path="res://resources/multipass_gen.tres" id="14_eks0k"]
 [ext_resource type="VoxelStreamSQLite" uid="uid://btm3gtoqnt4nf" path="res://resources/save.tres" id="15_mywnd"]
 [ext_resource type="VoxelBlockyTypeLibrary" uid="uid://c7aemhrd4kvsy" path="res://resources/voxel_block_library.tres" id="15_oyt4g"]
-[ext_resource type="Script" path="res://scripts/world/voxel_terrain.gd" id="16_os0xg"]
 [ext_resource type="Resource" uid="uid://cyrxj8chkhpni" path="res://resources/Items.tres" id="17_0yund"]
 [ext_resource type="Script" path="res://scripts/world/water.gd" id="18_uyomg"]
 [ext_resource type="Script" path="res://scripts/multiplayer/spawn_points.gd" id="19_pbsh8"]
@@ -23,6 +22,7 @@
 [ext_resource type="Shader" path="res://scripts/shaders/sky.gdshader" id="21_nlcn0"]
 [ext_resource type="Texture2D" uid="uid://dcbox1b26srt8" path="res://assets/textures/Screenshot (881).png" id="22_3nh30"]
 [ext_resource type="Script" path="res://scripts/other/time.gd" id="22_825rv"]
+[ext_resource type="Script" path="res://scripts/world/voxel_terrain.gd" id="22_c3gp2"]
 [ext_resource type="Shader" path="res://scripts/shaders/Vignette.gdshader" id="23_nhu6e"]
 [ext_resource type="AudioStream" uid="uid://8srankxfcp10" path="res://assets/sounds/music/Untitled song (3).mp3" id="24_in4nf"]
 [ext_resource type="Script" path="res://scripts/ui/inventory_holder.gd" id="25_8jiad"]
@@ -516,7 +516,7 @@ bus = &"UI"
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
-script = ExtResource("7_oh737")
+script = ExtResource("7_bpn8a")
 
 [node name="SelectedSlot" type="Control" parent="SlotManager"]
 visible = false
@@ -609,7 +609,7 @@ text = "64"
 horizontal_alignment = 2
 
 [node name="PlayerSpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_points", "player_container")]
-script = ExtResource("12_58lxv")
+script = ExtResource("12_jm65m")
 player_scene = ExtResource("7_n7355")
 spawn_points = [NodePath("../Game/SpawnPoints/SpwanPoint"), NodePath("../Game/SpawnPoints/SpwanPoint2"), NodePath("../Game/SpawnPoints/SpwanPoint3")]
 player_container = NodePath("../Players")
@@ -660,7 +660,7 @@ use_gpu_generation = true
 stream = ExtResource("15_mywnd")
 generator = ExtResource("14_eks0k")
 mesher = SubResource("VoxelMesherBlocky_b7d65")
-script = ExtResource("16_os0xg")
+script = ExtResource("22_c3gp2")
 item_library = ExtResource("17_0yund")
 
 [node name="Water" type="Node" parent="Game/VoxelTerrain" groups=["Water Updater"]]
@@ -685,7 +685,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 10, 8)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 10, 8)
 
 [node name="Loading Page" type="Control" parent="Game" node_paths=PackedStringArray("terrain")]
-visible = false
 z_index = 4
 layout_mode = 3
 anchors_preset = 15
@@ -913,8 +912,6 @@ background_texture = SubResource("AtlasTexture_fhmo7")
 [node name="Inventory" parent="Game/Player UI/Inventory_UI/Panel/MarginContainer/VBoxContainer/Inventory_Array" groups=["Main Inventory", "ui_savable"] instance=ExtResource("32_2pbse")]
 layout_mode = 2
 sync = false
-metadata = null
-id = null
 items_library = SubResource("Resource_c0ten")
 
 [node name="Label" type="Label" parent="Game/Player UI/Inventory_UI/Panel/MarginContainer/VBoxContainer"]

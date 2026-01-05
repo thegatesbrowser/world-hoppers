@@ -1,7 +1,7 @@
 extends Node
 
 var hotbar:HotBar
-var terrian:Terrian
+var terrian
 var sound_manager
 var player_inventory
 var inventory_holder

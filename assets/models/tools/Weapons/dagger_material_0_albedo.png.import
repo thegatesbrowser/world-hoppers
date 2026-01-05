@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rcb52yj8iuiv"
+uid="uid://b5uyurf8ptju5"
 path.s3tc="res://.godot/imported/dagger_material_0_albedo.png-6724e4e5f370162c1ef63fca869f7ca2.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "ea11baac38cd7d0bb61bacc8e9ffbe38"
 }
 
 [deps]

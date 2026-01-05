@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c1tenirmy1xiy"]
+[gd_scene load_steps=15 format=3 uid="uid://cs5ukv4ewghvx"]
+
+[ext_resource type="Script" uid="uid://b3tl0x8wuyx6p" path="res://addons/dev_console/dev_console.gd" id="1_x4tdp"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
 bg_color = Color(0.187176, 0.187176, 0.187176, 1)
@@ -54,10 +56,7 @@ anti_aliasing = false
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jdsj5"]
 bg_color = Color(0.0253638, 0.0253638, 0.0253638, 1)
 
-[sub_resource type="StyleBoxFlat" id="5"]
-bg_color = Color(0.6, 0.6, 0.6, 0.278431)
-
-[resource]
+[sub_resource type="Theme" id="Theme_cgtr1"]
 Button/constants/hseparation = 10
 Button/styles/hover = SubResource("3")
 Button/styles/normal = SubResource("3")
@@ -78,8 +77,62 @@ HSeparator/styles/separator = SubResource("6")
 Panel/styles/panel = SubResource("StyleBoxFlat_8wr3k")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ug056")
 PopupPanel/styles/panel = SubResource("StyleBoxFlat_jdsj5")
-VScrollBar/styles/grabber = SubResource("5")
-VScrollBar/styles/grabber_highlight = SubResource("5")
-VScrollBar/styles/grabber_pressed = SubResource("5")
-VScrollBar/styles/scroll = SubResource("5")
-VScrollBar/styles/scroll_focus = SubResource("5")
+VScrollBar/styles/grabber = null
+VScrollBar/styles/grabber_highlight = null
+VScrollBar/styles/grabber_pressed = null
+VScrollBar/styles/scroll = null
+VScrollBar/styles/scroll_focus = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k5g85"]
+
+[node name="dev_console" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_x4tdp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 346.0
+grow_horizontal = 2
+theme = SubResource("Theme_cgtr1")
+
+[node name="ColorRect2" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.631373)
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+material = SubResource("ShaderMaterial_k5g85")
+layout_mode = 2
+color = Color(0, 0, 0, 0.690196)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 10
+
+[node name="contents" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="console" type="RichTextLabel" parent="MarginContainer/MarginContainer/contents"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/contents"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="clear" type="Button" parent="MarginContainer/MarginContainer/contents/HBoxContainer"]
+layout_mode = 2
+text = "Clear"
+
+[node name="text_input" type="LineEdit" parent="MarginContainer/MarginContainer/contents/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "references()"
+
+[connection signal="pressed" from="MarginContainer/MarginContainer/contents/HBoxContainer/clear" to="." method="clear"]

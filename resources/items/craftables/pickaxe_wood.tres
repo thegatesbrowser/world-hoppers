@@ -22,7 +22,7 @@ items_needed = {
 "texture": ExtResource("2_u48rg")
 }
 }
-unique_name = &"pickaxe_wood"
+unique_name = &"pickaxe_wood_blueprint"
 texture = ExtResource("5_nb60v")
 max_stack = 64
 rotatable = false

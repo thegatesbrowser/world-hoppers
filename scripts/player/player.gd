@@ -156,14 +156,14 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 
-	if !Globals.paused and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
+	if !Globals.paused and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !Console.visible:
 		mine_and_place(delta)
-	if !is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
+	if !is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !Console.visible:
 		normal_movement(delta)
-	if is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !DevConsole.visible:
+	if is_flying and !Globals.paused and !swimming and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE and !Console.visible:
 		flying_movement(delta)
 		
-	if Globals.paused and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE or DevConsole.visible:
+	if Globals.paused and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE or Console.visible:
 		velocity.x = lerp(velocity.x,0.0,.1)
 		velocity.z = lerp(velocity.x,0.0,.1)
 

@@ -16,7 +16,7 @@ items_needed = {
 "texture": ExtResource("1_2ik7t")
 }
 }
-unique_name = &"wood_2"
+unique_name = &"wood_2_blueprint"
 texture = ExtResource("4_xbs6o")
 max_stack = 64
 rotatable = false

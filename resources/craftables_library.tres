@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/items/craftables/blueprint.gd" id="1_bg3qg"]
 [ext_resource type="Resource" uid="uid://dermpqlxy23ti" path="res://resources/items/craftables/wood_2.tres" id="2_tspjb"]
-[ext_resource type="Resource" uid="uid://b44xmwqmnnj8j" path="res://resources/items/craftables/chest.tres" id="4_4f3rf"]
+[ext_resource type="Resource" uid="uid://b44xmwqmnnj8j" path="res://resources/items/craftables/chest_blueprint.tres" id="4_4f3rf"]
 [ext_resource type="Resource" uid="uid://dwyevxsjqljjl" path="res://resources/items/craftables/fire.tres" id="5_44dxb"]
 [ext_resource type="Resource" uid="uid://bhvdh5jd8e1jh" path="res://resources/items/craftables/bed.tres" id="6_w55lx"]
 [ext_resource type="Resource" uid="uid://bujjlvms3amk4" path="res://resources/items/craftables/sticks.tres" id="7_suevq"]
@@ -18,6 +18,7 @@
 [ext_resource type="Resource" uid="uid://lpx3ft7pel1w" path="res://resources/items/craftables/sheild.tres" id="17_45yu2"]
 [ext_resource type="Resource" uid="uid://ck7wy7ive5y3m" path="res://resources/items/craftables/oak_planks.tres" id="18_y7f6b"]
 [ext_resource type="Resource" uid="uid://beev60uxfmwdr" path="res://resources/items/craftables/dagger.tres" id="21_ufg0f"]
+
 
 [resource]
 script = ExtResource("16_cxr8e")

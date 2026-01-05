@@ -22,7 +22,7 @@ items_needed = {
 "texture": ExtResource("2_33ko0")
 }
 }
-unique_name = &"bed"
+unique_name = &"bed_blueprint"
 texture = ExtResource("5_y1ifp")
 max_stack = 64
 rotatable = false

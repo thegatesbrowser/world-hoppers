@@ -17,7 +17,7 @@ items_needed = {
 "texture": ExtResource("1_bgvvu")
 }
 }
-unique_name = &"sheild"
+unique_name = &"sheild_blueprint"
 texture = SubResource("PlaceholderTexture2D_t43ws")
 max_stack = 1
 rotatable = false

@@ -63,12 +63,8 @@ func _on_pressed() -> void:
 					Globals.hotbar_slot_clicked.emit(self)
 					
 			
-			#if item != null:
-				#slot_manager.slot_clicked(self)
-			#else:
-				#if slot_manager.last_clicked_slot != null:
-					#slot_manager.slot_clicked(self)
-
+			if item != null:
+				slot_manager.slot_clicked(self)
 
 func update_slot() -> void:
 	amount_label.text = str(amount)

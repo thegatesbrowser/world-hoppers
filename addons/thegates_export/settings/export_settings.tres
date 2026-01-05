@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TGExportSettings" load_steps=2 format=3 uid="uid://gh3me1dmrdp7"]
+[gd_resource type="Resource" script_class="TGExportSettings" load_steps=2 format=3 uid="uid://bw2na25q5mdh6"]
 
 [ext_resource type="Script" path="res://addons/thegates_export/settings/export_settings.gd" id="1_4i6s3"]
 
