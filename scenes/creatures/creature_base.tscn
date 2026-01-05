@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://buts6uhmr7s2d"]
+[gd_scene load_steps=20 format=3 uid="uid://buts6uhmr7s2d"]
 
 [ext_resource type="Script" path="res://scripts/creatures/creature_base.gd" id="1_qm1no"]
 [ext_resource type="PackedScene" uid="uid://lapvsp2lnu5y" path="res://assets/models/creatures/fox.tscn" id="2_c208a"]
@@ -28,6 +28,12 @@ random_volume_offset_db = 3.27
 streams_count = 2
 stream_0/stream = ExtResource("3_yg616")
 stream_1/stream = ExtResource("4_4tu1u")
+
+[sub_resource type="BoxMesh" id="BoxMesh_xmfhs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3wr47"]
+no_depth_test = true
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="AI Base" type="CharacterBody3D" groups=["NPCS"]]
 collision_mask = 3
@@ -118,6 +124,11 @@ creature = NodePath("../..")
 script = ExtResource("11_a2w36")
 attack_raycast = NodePath("../../attack")
 creature = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_xmfhs")
+surface_material_override/0 = SubResource("StandardMaterial3D_3wr47")
 
 [connection signal="body_entered" from="attack range" to="." method="_on_attack_range_body_entered"]
 [connection signal="timeout" from="Sounds/idle/Timer" to="Sounds/idle" method="_on_timer_timeout"]

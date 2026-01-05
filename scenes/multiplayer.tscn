@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=4 uid="uid://de27e3hbp0hph"]
+[gd_scene load_steps=135 format=4 uid="uid://de27e3hbp0hph"]
 
 [ext_resource type="Script" path="res://scripts/multiplayer/resolution_changer.gd" id="1_5pkvj"]
 [ext_resource type="Script" path="res://scripts/other/sound_manager.gd" id="6_x8auu"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/common/saver.gd" id="10_3vt6t"]
 [ext_resource type="Texture2D" uid="uid://bn5we2hlukmst" path="res://assets/textures/icons/construction_1000dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png" id="10_jbeoc"]
 [ext_resource type="Script" path="res://scripts/player/player_spawner_2.gd" id="12_jm65m"]
+[ext_resource type="Script" path="res://scripts/multiplayer/creature_spawner.gd" id="12_ouyco"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="13_k4nmq"]
 [ext_resource type="VoxelGeneratorMultipassCB" uid="uid://bh1rbxjykhems" path="res://resources/multipass_gen.tres" id="14_eks0k"]
 [ext_resource type="VoxelStreamSQLite" uid="uid://btm3gtoqnt4nf" path="res://resources/save.tres" id="15_mywnd"]
@@ -26,6 +27,7 @@
 [ext_resource type="Shader" path="res://scripts/shaders/Vignette.gdshader" id="23_nhu6e"]
 [ext_resource type="AudioStream" uid="uid://8srankxfcp10" path="res://assets/sounds/music/Untitled song (3).mp3" id="24_in4nf"]
 [ext_resource type="Script" path="res://scripts/ui/inventory_holder.gd" id="25_8jiad"]
+[ext_resource type="Script" path="res://scripts/world/random_ticker.gd" id="25_ktj34"]
 [ext_resource type="PackedScene" uid="uid://b4ef0j31tttko" path="res://scenes/items/craftables/craftable_info.tscn" id="26_udpky"]
 [ext_resource type="Script" path="res://scripts/ui/armour_holder.gd" id="27_202l7"]
 [ext_resource type="PackedScene" uid="uid://dp3vw6ecck05s" path="res://scenes/ui/slot.tscn" id="28_lvpkg"]
@@ -608,6 +610,10 @@ theme_override_font_sizes/font_size = 20
 text = "64"
 horizontal_alignment = 2
 
+[node name="CreatureSpawner" type="Node" parent="." node_paths=PackedStringArray("creature_container")]
+script = ExtResource("12_ouyco")
+creature_container = NodePath("../Creatures")
+
 [node name="PlayerSpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_points", "player_container")]
 script = ExtResource("12_jm65m")
 player_scene = ExtResource("7_n7355")
@@ -671,6 +677,9 @@ script = ExtResource("18_uyomg")
 [node name="Sounds" type="Node3D" parent="Game/VoxelTerrain" groups=["SoundContainer"]]
 
 [node name="VoxelTerrainMultiplayerSynchronizer" type="VoxelTerrainMultiplayerSynchronizer" parent="Game/VoxelTerrain"]
+
+[node name="Random Ticks" type="Node" parent="Game/VoxelTerrain"]
+script = ExtResource("25_ktj34")
 
 [node name="SpawnPoints" type="Node3D" parent="Game"]
 script = ExtResource("19_pbsh8")

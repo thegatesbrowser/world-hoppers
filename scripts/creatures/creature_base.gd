@@ -21,7 +21,7 @@ var mover := VoxelBoxMover.new()
 @onready var collision: CollisionShape3D = $CollisionShape3D
 @onready var attack_coll: CollisionShape3D = $"attack range/CollisionShape3D"
 @onready var guide: Node3D = $guide
-@onready var multiplayer_sync:MultiplayerSynchronizer = $MultiplayerSynchronizer
+#@onready var multiplayer_sync:MultiplayerSynchronizer = $MultiplayerSynchronizer
 
 @export_group("Sync Properties")
 @export var _position: Vector3
@@ -46,10 +46,6 @@ var stopped:bool = false
 var past_points:Array[Vector3]
 
 func _ready() -> void:
-	
-	if not multiplayer.is_server():
-		multiplayer_sync.delta_synchronized.connect(on_synchronized)
-		multiplayer_sync.synchronized.connect(on_synchronized)
 		
 	health = creature_resource.max_health
 
@@ -76,8 +72,6 @@ func _ready() -> void:
 	#despawn_timer.timeout.connect(try_despawn)
 	
 func _process(delta: float) -> void:
-				
-	if not multiplayer.is_server(): return
 	
 	var closest_player:Player = get_closest_player()
 	if closest_player:
@@ -87,10 +81,6 @@ func _process(delta: float) -> void:
 			try_despawn()
 
 func _physics_process(delta: float) -> void:
-	
-	if not multiplayer.is_server():
-		interpolate_client(delta)
-		return
 		
 	if not world_loaded: return
 
@@ -157,13 +147,12 @@ func get_random_pos_in_sphere(radius : float) -> Vector3:
 
 	return random_pos_on_unit_sphere
 
-@rpc("any_peer", "unreliable")
 func hit(hit_from:Vector3,damage:int = 1):
 	
 	health -= damage
 	
 	if health <= 0:
-		drop_items.rpc_id(multiplayer.get_remote_sender_id())
+		drop_items()
 		try_despawn()
 	else:
 		hit_sfx.play()
@@ -215,9 +204,7 @@ func try_despawn() -> void:
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
 
-@rpc("any_peer","reliable")
 func drop_items() -> void:
-	if multiplayer.is_server(): return
 	if dropped_items: return
 	
 	var slot_manager = get_node("/root/Main").find_child("SlotManager")

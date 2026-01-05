@@ -2,7 +2,7 @@
 # such as growth of grass and crops, fire etc.
 extends Node
 
-const ItemLib = preload('res://resources/items_library.tres')
+const ItemLib = preload('res://resources/Items.tres')
 const VoxelLibraryResource = preload("res://resources/voxel_block_library.tres")
 
 # Takes effect in a large radius around the player

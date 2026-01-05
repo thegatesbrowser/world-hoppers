@@ -1,16 +1,12 @@
-extends MultiplayerSpawner
-
-signal creature_spawned(id: int, creature)
-signal creature_despawned(id: int)
-
+extends Node
 var debug:bool
 var creature_base = preload("res://scenes/creatures/creature_base.tscn")
 @export var view_distance: int = 20
+@export var creature_container:Node3D
 
 var creature_spawners:Dictionary
 
 func _ready() -> void:
-	spawn_function = custom_spawn
 	Globals.create_spawner.connect(create_creature_spawner)
 	Globals.spawn_creature.connect(spawn_creature)
 	var spawn_tick := Timer.new()
@@ -20,25 +16,21 @@ func _ready() -> void:
 	spawn_tick.timeout.connect(tick)
 
 
-@rpc("any_peer","call_local")
 func spawn_creature(pos: Vector3, creature_path:String, spawn_pos = null) -> void:
 	#print(creature, pos)
 	
 	var creature:Creature = load(creature_path)
-	
-	if not multiplayer.is_server(): return
 	
 	if get_tree().get_nodes_in_group("NPCS").size() >= 6:
 		return
 		
 	var spawn_position = pos
 	print("creature spawn pos ", spawn_position)
-	spawn([1, spawn_position,creature.get_path(),spawn_pos])
+	custom_spawn([1, spawn_position,creature.get_path(),spawn_pos])
 
 
 func destroy_creature(Name: String) -> void:
-	if not multiplayer.is_server(): return
-	get_node(spawn_path).get_node(Name).queue_free()
+	creature_container.get_node(Name).queue_free()
 
 
 func debug_spawn_creature(pos:Vector3,creature_name):
@@ -50,9 +42,8 @@ func debug_spawn_creature(pos:Vector3,creature_name):
 	if creature:
 		spawn_creature.rpc_id(1,pos,creature)
 
-func custom_spawn(data: Array) -> Node:
+func custom_spawn(data: Array):
 		
-	var id: int = data[0]
 	var spawn_position: Vector3 = data[1]
 	
 	## Loads from the path of the resource
@@ -61,8 +52,6 @@ func custom_spawn(data: Array) -> Node:
 	var spawn_pos = data[3] ## start spawn from saving
 	
 	var creature = creature_base.instantiate() as CreatureBase
-	creature.set_multiplayer_authority(id)
-	creature.name = str(id)
 	creature.position = spawn_position
 
 	if spawn_pos != null:
@@ -72,33 +61,28 @@ func custom_spawn(data: Array) -> Node:
 
 	creature.creature_resource = creature_resource
 	
-	create_viewer(id, creature)
+	create_viewer(creature)
 	
-	creature_spawned.emit(id, creature)
-	return creature
+	creature_container.add_child(creature)
+	
 
+func create_viewer(creature: CreatureBase) -> void:
+	var viewer: VoxelViewer = VoxelViewer.new()
 
-func create_viewer(_id: int, creature: CreatureBase) -> void:
-	if Connection.is_server():
-		var viewer: VoxelViewer = VoxelViewer.new()
+	viewer.view_distance = view_distance
+	viewer.requires_visuals = false
+	viewer.requires_collisions = true
+	viewer.set_network_peer_id(1)
 
-		viewer.view_distance = view_distance
-		viewer.requires_visuals = false
-		viewer.requires_collisions = true
-		viewer.set_network_peer_id(1)
-
-		creature.add_child(viewer)
+	creature.add_child(viewer)
 
 func create_creature_spawner(spawner_pos:Vector3i,creature:String):
-	return
 	creature_spawners[spawner_pos] = {"creature":creature}
 	#print("created_spawner")
 	#print("spawners ",creature_spawners)
 	pass
 	
 func tick():
-	return
-	if !multiplayer.is_server(): return
 	if creature_spawners.size() == 0: return
 		
 	var pos = creature_spawners.keys().pick_random()
